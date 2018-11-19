@@ -19,10 +19,11 @@ router.post(
   passport.authenticate(passportStrategy, { session: false }),
   (req, res, next) => {
     if (req.user) {
+      const googleAnalyticsID = require("../config")["googleAnalyticsID"];
       const jwtSecret = require("../config")["jwtSecret"];
       const expiresIn = 60 * 60 * 24 * 180; // 180 days
       const token = jwt.sign(req.user, jwtSecret, { expiresIn });
-      res.redirect(`/?token=${token}`);
+      res.redirect(`/?ga=${googleAnalyticsID}&token=${token}`);
     } else {
       res.sendStatus(401);
     }
