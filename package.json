@@ -22,7 +22,6 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@instructure/ui-elements": "^5.28.1",
-    "@instructure/ui-icons": "^5.33.0",
     "@instructure/ui-layout": "^5.33.0",
     "@instructure/ui-presets": "^5.28.1",
     "@instructure/ui-themes": "^5.28.1",
