@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 let getEnvVarOrDefault = (envVar, defaultValue) => {
   defaultValue = defaultValue || "CHANGEME";
   if (!!process.env[envVar]) {
