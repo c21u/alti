@@ -30,12 +30,6 @@ test("Should not authenticate with bad credentials", () => {
     .expect(401);
 });
 
-test("GET / should be protected", () => {
-  return request(app)
-    .get("/")
-    .expect(401);
-});
-
 test("/api routes should be protected", () => {
   return request(app)
     .get("/api")
