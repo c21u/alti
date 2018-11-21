@@ -19,7 +19,7 @@ test("Can POST to be authenticated", () => {
     .send(`username=${fakeAuth.username}`)
     .send(`password=${fakeAuth.password}`)
     .expect(302)
-    .expect("Location", /^\/\?token=.+\..+\..+$/);
+    .expect("Location", /^\/\?.*token=.+\..+\..+$/);
 });
 
 test("Should not authenticate with bad credentials", () => {
