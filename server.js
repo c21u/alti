@@ -2,7 +2,6 @@ let createError = require("http-errors");
 let express = require("express");
 let path = require("path");
 let cookieParser = require("cookie-parser");
-let httpLogger = require("morgan");
 const logger = require("./lib/logger");
 let sentryDSN = require("./config")["sentryDSN"];
 
@@ -10,6 +9,8 @@ if (sentryDSN) {
   let Sentry = require("@sentry/node");
   Sentry.init({ dsn: sentryDSN });
 }
+
+logger.info("Logging demo: Hello from server.js");
 
 let indexRouter = require("./routes");
 let apiRouter = require("./routes/api");
@@ -26,9 +27,6 @@ if (sentryDSN) {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(
-  httpLogger(require("./config")["httpLogsFormat"], { stream: logger.stream })
-);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
