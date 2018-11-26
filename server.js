@@ -2,15 +2,12 @@ let createError = require("http-errors");
 let express = require("express");
 let path = require("path");
 let cookieParser = require("cookie-parser");
-const logger = require("./lib/logger");
 let sentryDSN = require("./config")["sentryDSN"];
 
 if (sentryDSN) {
   let Sentry = require("@sentry/node");
   Sentry.init({ dsn: sentryDSN });
 }
-
-logger.info("Logging demo: Hello from server.js");
 
 let indexRouter = require("./routes");
 let apiRouter = require("./routes/api");
