@@ -13,11 +13,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-        {this.props.CommonStore.jwt ? (
-          <Demo />
-        ) : (
-          <p>Error: invalid token.</p>
-        )}
+        {this.props.CommonStore.jwt ? <Demo /> : <p>Error: invalid token.</p>}
       </>
     );
   }
