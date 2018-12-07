@@ -1,40 +1,76 @@
 import jwtDecode from "jwt-decode";
 import qs from "qs";
-import { computed } from "mobx";
+import { action, observable } from "mobx";
+import agent from "../agent";
 
 const queryParameters = window.location.search;
 
+/**
+ * @param {string} item
+ * @return {(string|boolean)}
+ */
+function parseQueryParams(item) {
+  if (!item) return false;
+  try {
+    return qs.parse(queryParameters, { ignoreQueryPrefix: true })[item];
+  } catch (reason) {
+    console.error(reason);
+  }
+  return false;
+}
+
+/**
+ * Parse query parameters for expected JWT.
+ * @return {(string|boolean)}
+ */
+function getJWT() {
+  const token = parseQueryParams("token");
+  try {
+    jwtDecode(token);
+    return token;
+  } catch (reason) {
+    console.error(reason);
+  }
+  return false;
+}
+
 /** shared store */
 class CommonStore {
-  /**
-   * Return the JWT from query parameters, or return false if the validation fails.
-   * @return {(string|boolean)}
-   */
-  @computed
-  get jwt() {
-    try {
-      const token = qs.parse(queryParameters, { ignoreQueryPrefix: true })
-        .token;
-      jwtDecode(token);
-      return token;
-    } catch (reason) {
-      console.error(reason);
-    }
-    return false;
-  }
+  @observable
+  context = {};
+
+  @observable
+  isLoading = false;
+
+  @observable
+  jwt = getJWT();
+
+  @observable
+  googleAnalyticsID = parseQueryParams("ga");
 
   /**
-   * Return the Analytics ID from query parameters, or false.
-   * @return {(string|boolean)}
+   * Context Requester
+   * @return {Promise}
    */
-  @computed
-  get googleAnalyticsID() {
-    try {
-      return qs.parse(queryParameters, { ignoreQueryPrefix: true }).ga;
-    } catch (reason) {
-      console.error(reason);
-    }
-    return false;
+  $req() {
+    return agent.Context.get();
+  }
+
+  /** @return {Promise} */
+  @action
+  requestContext() {
+    this.isLoading = true;
+    return this.$req()
+      .then(
+        action(response => {
+          this.context = response.context;
+        })
+      )
+      .finally(
+        action(() => {
+          this.isLoading = false;
+        })
+      );
   }
 }
 
