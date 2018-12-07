@@ -4,7 +4,7 @@ const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: {
-    app: "./client/src/index.js"
+    app: "./client/src/index.jsx"
   },
   output: {
     filename: "[name].bundle.js",
@@ -14,6 +14,7 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
+        resolve: { extensions: [".js", ".jsx"] },
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
