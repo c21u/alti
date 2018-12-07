@@ -28,10 +28,12 @@ const requests = {
   }
 };
 
-const DemoData = {
-  all: () => requests.get("/demo")
+const Context = {
+  get: () => {
+    return requests.get(`/context/`);
+  }
 };
 
 export default {
-  DemoData
+  Context
 };
