@@ -3,22 +3,35 @@ let express = require("express");
 let router = express.Router();
 let jwtMiddleware = require("../lib/jwt");
 let canvas = require("../lib/canvas");
+let logger = require("../lib/logger");
 
-const accounts = {
-  list: () => canvas.get("/accounts")
+/**
+ * Create context based on the incoming request user.
+ * @param {object} user
+ * @return {object}
+ */
+const createContext = user => {
+  if (!!user && !!user.custom_canvas_course_id && !!user.custom_lis_user_idz) {
+    return {
+      courseID: user.custom_canvas_course_id,
+      userID: user.custom_lis_user_id
+    };
+  } else {
+    logger.error("Failure");
+    return {};
+  }
 };
 
 router.use(jwtMiddleware);
 
-router.get("/demo", (req, res, next) => {
-  accounts
-    .list()
-    .then(response => {
-      res.send({
-        data: response.body
-      });
-    })
-    .catch(err => console.error(err));
+router.get("/context", (req, res, next) => {
+  let context;
+  try {
+    context = createContext(req.user);
+  } catch (reason) {
+    logger.error({ err: reason });
+  }
+  res.send({ context });
 });
 
 module.exports = router;
