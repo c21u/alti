@@ -11,7 +11,7 @@ let logger = require("../lib/logger");
  * @return {object}
  */
 const createContext = user => {
-  if (!!user && !!user.custom_canvas_course_id && !!user.custom_lis_user_idz) {
+  if (!!user && !!user.custom_canvas_course_id && !!user.custom_lis_user_id) {
     return {
       courseID: user.custom_canvas_course_id,
       userID: user.custom_lis_user_id
