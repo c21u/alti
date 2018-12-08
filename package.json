@@ -8,7 +8,7 @@
     "dev:client": "webpack --watch --config webpack.dev.js",
     "lint": "precise-commits",
     "start": "node ./bin/www",
-    "start-dev": "run-p dev:*",
+    "start-dev": "run-p dev:* | bunyan -L -o short",
     "test": "NODE_ENV=test jest"
   },
   "husky": {
