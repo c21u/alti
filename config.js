@@ -32,6 +32,7 @@ try {
     appID: getEnvVarOrDefault("BUZZAPI_APP_ID"),
     password: getEnvVarOrDefault("BUZZAPI_PASSWORD")
   };
+  config.canvasApiUrl = getEnvVarOrDefault("CANVAS_API_URL");
   config.canvasToken = getEnvVarOrDefault("CANVAS_TOKEN");
   config.fakeStrategyCredentials = {};
   config.httpLogsFormat = "combined";
