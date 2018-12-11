@@ -34,6 +34,13 @@ const Context = {
   }
 };
 
+const Canvas = {
+  status: () => {
+    return requests.get(`/canvas-status/`);
+  }
+};
+
 export default {
+  Canvas,
   Context
 };

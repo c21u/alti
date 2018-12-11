@@ -34,4 +34,19 @@ router.get("/context", (req, res, next) => {
   res.send({ context });
 });
 
+router.get("/canvas-status", (req, res, next) => {
+  canvas
+    .get("/accounts")
+    .then(response => {
+      if (!response.body) {
+        res.send({ status: "error" });
+      }
+      res.send({ status: "success" });
+    })
+    .catch(err => {
+      console.error(err);
+      res.send({ status: "error" });
+    });
+});
+
 module.exports = router;
