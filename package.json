@@ -29,7 +29,6 @@
     "babel-loader": "^8.0.2",
     "babel-preset-mobx": "^2.0.0",
     "bunyan": "^1.8.12",
-    "bunyan-rotating-file-stream": "^1.6.3",
     "buzzapi": "^1.2.4",
     "clean-webpack-plugin": "^1.0.0",
     "cookie-parser": "~1.4.3",
