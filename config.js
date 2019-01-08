@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-let getEnvVarOrDefault = (envVar, defaultValue) => {
+const getEnvVarOrDefault = (envVar, defaultValue) => {
   defaultValue = defaultValue || "CHANGEME";
   if (!!process.env[envVar]) {
     return process.env[envVar];
@@ -10,7 +10,7 @@ let getEnvVarOrDefault = (envVar, defaultValue) => {
   }
 };
 
-let getEnvVarOrNull = envVar => {
+const getEnvVarOrNull = envVar => {
   if (!!process.env[envVar]) {
     return process.env[envVar];
   } else {
@@ -18,7 +18,7 @@ let getEnvVarOrNull = envVar => {
   }
 };
 
-let getEnvVarOrThrow = envVar => {
+const getEnvVarOrThrow = envVar => {
   if (!!process.env[envVar]) {
     return process.env[envVar];
   } else {
@@ -26,7 +26,7 @@ let getEnvVarOrThrow = envVar => {
   }
 };
 
-let config = {};
+const config = {};
 try {
   config.buzzAPI = {
     appID: getEnvVarOrDefault("BUZZAPI_APP_ID"),

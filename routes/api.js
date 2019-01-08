@@ -1,9 +1,9 @@
-let express = require("express");
+const express = require("express");
 // eslint-disable-next-line new-cap
-let router = express.Router();
-let jwtMiddleware = require("../lib/jwt");
-let canvas = require("../lib/canvas");
-let logger = require("../lib/logger");
+const router = express.Router();
+const jwtMiddleware = require("../lib/jwt");
+const canvas = require("../lib/canvas");
+const logger = require("../lib/logger");
 
 /**
  * Create context based on the incoming request user.
