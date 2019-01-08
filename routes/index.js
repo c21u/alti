@@ -4,6 +4,18 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const jwtMiddleware = require("../lib/jwt");
 const passport = require("../lib/passport");
+const qs = require("qs");
+
+/**
+ * Create a JWT with the given user.
+ * @param {Request} req
+ * @return {string} token
+ */
+function issueToken(req) {
+  return jwt.sign(req.user, require("../config")["jwtSecret"], {
+    expiresIn: 60 * 60 * 24 * 180 /* 180 days */
+  });
+}
 
 // Passport initialized here but actually used as passport.authenticate()
 router.use(passport.initialize());
@@ -19,11 +31,19 @@ router.post(
   passport.authenticate(passportStrategy, { session: false }),
   (req, res, next) => {
     if (req.user) {
+      const parameters = {};
+      parameters.token = issueToken(req);
       const googleAnalyticsID = require("../config")["googleAnalyticsID"];
-      const jwtSecret = require("../config")["jwtSecret"];
-      const expiresIn = 60 * 60 * 24 * 180; // 180 days
-      const token = jwt.sign(req.user, jwtSecret, { expiresIn });
-      res.redirect(`/?ga=${googleAnalyticsID}&token=${token}`);
+      if (!!googleAnalyticsID) {
+        parameters.ga = googleAnalyticsID;
+      }
+
+      res.set({
+        "Cache-Control": "no-store",
+        Pragma: "no-cache"
+      });
+
+      res.redirect(`/?${qs.stringify(parameters)}`);
     } else {
       res.sendStatus(401);
     }
