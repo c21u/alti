@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "build": "webpack --config webpack.prod.js",
-    "dev:server": "nodemon ./bin/www",
+    "dev:server": "nodemon ./bin/www | bunyan -L -o short",
     "dev:client": "webpack --watch --config webpack.dev.js",
     "lint": "precise-commits",
     "start": "node ./bin/www",
-    "start-dev": "run-p dev:* | bunyan -L -o short",
+    "start-dev": "NODE_ENV=development run-p dev:*",
     "test": "NODE_ENV=test jest"
   },
   "husky": {
