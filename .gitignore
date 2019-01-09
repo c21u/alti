@@ -1,3 +1,5 @@
+install.dev.xml
+install.prod.xml
 dist/
 
 # Logs
