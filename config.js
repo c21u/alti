@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const getEnvVarOrDefault = (envVar, defaultValue) => {
-  defaultValue = defaultValue || "CHANGEME";
+  defaultValue = defaultValue || envVar;
   if (!!process.env[envVar]) {
     return process.env[envVar];
   } else {
