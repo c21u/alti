@@ -6,5 +6,6 @@ Steps for the new LTI after cloning this repo
 1. `yarn install`
 
 2. ensure all env variables are set
- * create .env
- * check config.js for which vars to set
+ * copy or rename `example.env` to `.env`
+ * fill out the required variables.
+ * check config.js for other vars to set.
