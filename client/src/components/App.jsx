@@ -1,13 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react";
 import Spinner from "@instructure/ui-elements/lib/components/Spinner";
 import View from "@instructure/ui-layout/lib/components/View";
+import agent from "../agent";
 import Demo from "./Demo";
 
 /** App top-level component */
-@inject("CommonStore")
-@observer
 class App extends React.Component {
   /** @param {object} props */
   constructor(props) {
@@ -21,7 +18,7 @@ class App extends React.Component {
    * Request context when component mounts.
    */
   componentDidMount() {
-    this.props.CommonStore.requestContext().then(() => {
+    agent.getContext().then(() => {
       this.setState({ gotContext: true });
     });
   }
@@ -39,15 +36,5 @@ class App extends React.Component {
     );
   }
 }
-App.propTypes = {
-  CommonStore: PropTypes.shape({
-    jwt: PropTypes.string,
-    context: PropTypes.shape({
-      courseID: PropTypes.string,
-      userID: PropTypes.string
-    }),
-    requestContext: PropTypes.func.isRequired
-  })
-};
 
 export default App;

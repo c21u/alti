@@ -11,10 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create this changelog.
 
 ### Changed
+- Client HTTP agent handles getting the JWT to use in its requests.
 - Update readme to reflect CHANGELOG and README files that need replacing.
 - Update readme numbering scheme.
 - All-caps the readme file name.
 - Use 'alti' instead of generic project name when logging.
+
+### Removed
+- Removed dependency on Mobx since it is not needed for most LTI projects.
 
 ## 0.1.0 - 2019-02-02
 ### Added
