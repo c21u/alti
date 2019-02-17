@@ -3,6 +3,7 @@ import Spinner from "@instructure/ui-elements/lib/components/Spinner";
 import View from "@instructure/ui-layout/lib/components/View";
 import agent from "../agent";
 import Demo from "./Demo";
+import Layout from "./Layout";
 
 /** App top-level component */
 class App extends React.Component {
@@ -27,12 +28,16 @@ class App extends React.Component {
    * @return {Element} Render the App component.
    */
   render() {
-    return this.state.gotContext ? (
-      <Demo />
-    ) : (
-      <View as="div" margin="large auto" textAlign="center">
-        <Spinner size="large" title="Loading..." />
-      </View>
+    return (
+      <Layout>
+        {this.state.gotContext ? (
+          <Demo />
+        ) : (
+          <View as="div" margin="large auto" textAlign="center">
+            <Spinner size="large" title="Loading..." />
+          </View>
+        )}
+      </Layout>
     );
   }
 }

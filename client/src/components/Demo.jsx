@@ -63,7 +63,6 @@ const Demo = () => {
       background="default"
       maxWidth="90%"
       margin="small auto"
-      borderWidth="medium"
       textAlign="center"
     >
       <Text as="p">A new LTI</Text>
