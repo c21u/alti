@@ -1,5 +1,3 @@
-const logger = require("../lib/logger");
-
 module.exports = Data => req => {
   return Data.getAccounts
     .then(response => {
@@ -9,7 +7,6 @@ module.exports = Data => req => {
       return { status: "success" };
     })
     .catch(err => {
-      logger.error(err);
-      return { status: "error" };
+      return { status: "error", message: err.message };
     });
 };
