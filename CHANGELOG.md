@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2019-02-19
+### Added
+- Included layout/frame/wrapper common component.
+
+### Changed
+- Upgraded all dependencies to latest versions.
+- Specify files for test coverage collection, so that coverage statistics better reflect reality.
+- Add tests around API endpoints.
+- Refactor API endpoint handlers.
+- Refactor the config.
+- Indicate required variables for Canvas in the example env file.
+- Refactor server-related files into a 'server' folder.
+- Run precommit hook tasks via `npm-run-all`.
+
 ## [0.2.0] - 2019-02-07
 ### Added
 - Add rule to eslint config so that unused variables are highlighted.
@@ -26,5 +40,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initialize versioning.
 
-[Unreleased]: https://github.gatech.edu/c21u/alti/compare/v0.2.0...dev
+[Unreleased]: https://github.gatech.edu/c21u/alti/compare/v0.3.0...dev
+[0.3.0]: https://github.gatech.edu/c21u/alti/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.gatech.edu/c21u/alti/compare/v0.1.0...v0.2.0
