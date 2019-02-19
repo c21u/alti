@@ -16,6 +16,13 @@
       "pre-commit": "yarn lint && yarn test"
     }
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "lib/**/*.js",
+      "routes/**/*.js",
+      "server.js"
+    ]
+  },
   "dependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
