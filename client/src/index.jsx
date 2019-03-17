@@ -5,4 +5,10 @@ import App from "./components/App";
 
 theme.use();
 
-ReactDOM.render(<App />, document.getElementById("lti_root"));
+const appRoot = document.getElementById("lti_root");
+
+const appVersion = appRoot.getAttribute("data-app-version");
+console.log("app version:");
+console.log(appVersion);
+
+ReactDOM.render(<App />, appRoot);
