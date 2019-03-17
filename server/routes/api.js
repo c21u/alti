@@ -4,10 +4,23 @@ const router = express.Router();
 const jwtMiddleware = require("../lib/jwt");
 const createContext = require("../lib/util").createContext;
 
+/**
+ * @return {string}
+ */
+function getVersion() {
+  const packageVersion = require("../../package.json").version;
+  return `${packageVersion}___${
+    process.env.APP_VERSION ? process.env.APP_VERSION : ""
+  }`;
+}
+
 router.use(jwtMiddleware);
 
 router.get("/context", (req, res, next) => {
-  res.send({ context: createContext(req.user) });
+  res.send({
+    context: createContext(req.user),
+    data: { version: getVersion() }
+  });
 });
 
 const Data = require("../lib/dataLayer");

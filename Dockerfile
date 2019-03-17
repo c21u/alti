@@ -29,10 +29,9 @@ COPY server server
 COPY --from=builder dist dist 
 COPY --from=builder node_modules node_modules 
 
-# The git_describe build arg should be set with `git describe`
-# when docker build is run.
-ARG git_describe
-ENV GIT_DESCRIBE=$git_describe
+# This build arg should be set during `docker build`.
+ARG app_version=UNKNOWN
+ENV APP_VERSION=$app_version
 
 EXPOSE 3000
 
