@@ -6,7 +6,7 @@ COPY package.json .
 COPY yarn.lock .
 
 # Install dependencies
-RUN yarn install --non-interactive --no-progress --production
+RUN yarn install --non-interactive --no-progress
 
 # Copy client source and build files from source.
 COPY client client
