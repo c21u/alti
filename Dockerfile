@@ -33,6 +33,9 @@ COPY --from=builder node_modules node_modules
 ARG app_version=UNKNOWN
 ENV APP_VERSION=$app_version
 
+ARG git_describe=UNKNOWN
+ENV GIT_DESCRIBE=$git_describe
+
 EXPOSE 3000
 
 ENTRYPOINT [ "node" ]
