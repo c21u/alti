@@ -19,7 +19,9 @@ class App extends React.Component {
    * Request context when component mounts.
    */
   componentDidMount() {
-    agent.getContext().then(() => {
+    agent.getContext().then(response => {
+      console.log(`app version:`);
+      console.log(`${response.data.version}`);
       this.setState({ gotContext: true });
     });
   }
