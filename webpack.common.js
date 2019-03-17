@@ -1,7 +1,6 @@
 const path = require("path");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
-const getGitDescribeVersion = require("./util/gitDescribe");
 
 module.exports = {
   entry: {
@@ -29,10 +28,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(["dist"]),
     new HTMLWebpackPlugin({
-      template: "client/src/index.html",
-      templateParameters: {
-        version: getGitDescribeVersion()
-      }
+      template: "client/src/index.html"
     }),
     require("@instructure/ui-presets/webpack/plugins")
   ],
