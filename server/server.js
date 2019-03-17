@@ -4,6 +4,9 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const sentryDSN = require("./config")["sentryDSN"];
 
+const logger = require("./lib/logger");
+logger.info(`app version: ${process.env.GIT_DESCRIBE}`);
+
 if (sentryDSN) {
   const Sentry = require("@sentry/node");
   Sentry.init({ dsn: sentryDSN });
