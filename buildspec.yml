@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_ACCOUNT_ID: "332672892491"
+    IMAGE_NAME: "alti"
+    IMAGE_REPO_USERNAME: "eduapps"
+    IMAGE_TAG: "latest"
+
+phases:
+  pre_build:
+    commands:
+      - GIT_DESCRIBE=$(git describe --always)
+      - echo Logging in to ECR...
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building Docker image...
+      - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+      - docker tag $IMAGE_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_USERNAME/$IMAGE_NAME:$IMAGE_TAG
+      - docker tag $IMAGE_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_USERNAME/$IMAGE_NAME:$GIT_DESCRIBE
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing Docker image and tags...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_USERNAME/$IMAGE_NAME:$GIT_DESCRIBE
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_USERNAME/$IMAGE_NAME:$IMAGE_TAG
+      - aws ecs update-service --cluster eduapps-test --service alti-test --force-new-deployment
+      - echo Done
