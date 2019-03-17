@@ -24,6 +24,7 @@ WORKDIR /app
 
 # Copy server code from source.
 COPY server server 
+COPY package.json .
 
 # Copy built client app and node_modules from build stage.
 COPY --from=builder dist dist 
