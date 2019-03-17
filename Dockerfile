@@ -30,8 +30,8 @@ COPY --from=builder dist dist
 COPY --from=builder node_modules node_modules 
 
 # The git_describe build arg should be set with `git describe`
-# when docker build is run. The fallback value is UNKNOWN.
-ARG git_describe=UNKNOWN
+# when docker build is run.
+ARG git_describe
 ENV GIT_DESCRIBE=$git_describe
 
 EXPOSE 3000
