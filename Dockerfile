@@ -8,7 +8,6 @@ RUN yarn build
 
 EXPOSE 3000
 USER node
-ENV NODE_ENV production
 
 ENTRYPOINT [ "node" ]
 CMD [ "server/bin/www" ]
