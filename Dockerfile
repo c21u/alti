@@ -1,41 +1,24 @@
-# ---- Build stage
-FROM node:10 as builder
+FROM node:10
 
-# Copy dependencies data from source
+WORKDIR /app
+
+# Copy app directories and files.
+COPY client client
+COPY server server 
+COPY util util 
 COPY package.json .
+COPY webpack.common.js .
+COPY webpack.prod.js .
 COPY yarn.lock .
 
 # Install dependencies, production deps only.
 RUN yarn install --production --non-interactive --no-progress
 
-# Copy client source and build files from source.
-COPY client client
-COPY util util 
-COPY webpack.common.js .
-COPY webpack.prod.js .
-
 # Build client code.
 RUN yarn build
 
-# ---- Release stage
-FROM node:10
-
-WORKDIR /app
-
-# Copy server code from source.
-COPY server server 
-COPY package.json .
-
-# Copy built client app and node_modules from build stage.
-COPY --from=builder dist dist 
-COPY --from=builder node_modules node_modules 
-
-# This build arg should be set during `docker build`.
-ARG app_version=UNKNOWN
+ARG app_version
 ENV APP_VERSION=$app_version
-
-ARG git_describe=UNKNOWN
-ENV GIT_DESCRIBE=$git_describe
 
 EXPOSE 3000
 
