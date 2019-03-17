@@ -1,13 +1,34 @@
-FROM node:10
+# ---- Build stage
+FROM node:10 as builder
 
-COPY . /app
-WORKDIR /app
+# Copy dependencies data from source
+COPY package.json .
+COPY yarn.lock .
 
+# Install dependencies
 RUN yarn install --non-interactive --no-progress --production
+
+# Copy client source and build files from source.
+COPY client client
+COPY webpack.common.js .
+COPY webpack.prod.js .
+
+# Build client code.
 RUN yarn build
 
+# ---- Release stage
+FROM node:10
+
+WORKDIR /app
+
+# Copy server code from source.
+COPY server server 
+
+# Copy built client app and node_modules from build stage.
+COPY --from=builder dist dist 
+COPY --from=builder node_modules node_modules 
+
 EXPOSE 3000
-USER node
 
 ENTRYPOINT [ "node" ]
 CMD [ "server/bin/www" ]
