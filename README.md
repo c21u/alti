@@ -1,3 +1,5 @@
+# ALTI
+
 Steps for the new LTI after cloning this repo
 
 1. rename project
