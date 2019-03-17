@@ -8,7 +8,7 @@ const semver = require("semver");
 function getGitDescribeVersion() {
   let gitDescribeVersion = null;
 
-  const gitDescribeProc = spawn("git", ["describe"]);
+  const gitDescribeProc = spawn("git", ["describe", "--always"]);
   if (gitDescribeProc.status === 0) {
     const procStdout = gitDescribeProc.stdout.toString();
     gitDescribeVersion = semver.clean(procStdout);
