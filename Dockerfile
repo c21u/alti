@@ -11,4 +11,4 @@ USER node
 ENV NODE_ENV production
 
 ENTRYPOINT [ "node" ]
-CMD [ "bin/www" ]
+CMD [ "server/bin/www" ]
