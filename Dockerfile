@@ -10,6 +10,7 @@ RUN yarn install --production --non-interactive --no-progress
 
 # Copy client source and build files from source.
 COPY client client
+COPY util util 
 COPY webpack.common.js .
 COPY webpack.prod.js .
 
@@ -27,6 +28,11 @@ COPY server server
 # Copy built client app and node_modules from build stage.
 COPY --from=builder dist dist 
 COPY --from=builder node_modules node_modules 
+
+# The git_describe build arg should be set with `git describe`
+# when docker build is run. The fallback value is UNKNOWN.
+ARG git_describe=UNKNOWN
+ENV GIT_DESCRIBE=$git_describe
 
 EXPOSE 3000
 
