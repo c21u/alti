@@ -5,7 +5,6 @@ WORKDIR /app
 # Copy app directories and files.
 COPY client client
 COPY server server 
-COPY util util 
 COPY package.json .
 COPY webpack.common.js .
 COPY webpack.prod.js .
