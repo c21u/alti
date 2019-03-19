@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Text from "@instructure/ui-elements/lib/components/Text";
 import View from "@instructure/ui-layout/lib/components/View";
 
-const Layout = ({ children }) => (
+const Layout = ({ children, versionInfo }) => (
   <View
     display="block"
     padding="small"
@@ -13,11 +14,17 @@ const Layout = ({ children }) => (
   >
     <View display="block" background="default" padding="small">
       {children}
+      <View display="block">
+        <Text color="secondary" size="x-small">
+          {versionInfo}
+        </Text>
+      </View>
     </View>
   </View>
 );
 Layout.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  versionInfo: PropTypes.string
 };
 
 export default Layout;

@@ -13,7 +13,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      gotContext: false
+      gotContext: false,
+      versionInfo: null
     };
   }
 
@@ -36,9 +37,10 @@ class App extends React.Component {
     }
 
     agent.getContext().then(response => {
-      console.log(`app version:`);
-      console.log(`${response.data.version}`);
       this.setState({ gotContext: true });
+      if (response.data.version) {
+        this.setState({ versionInfo: response.data.version });
+      }
     });
   }
 
@@ -47,7 +49,7 @@ class App extends React.Component {
    */
   render() {
     return (
-      <Layout>
+      <Layout versionInfo={this.state.versionInfo || ""}>
         {this.state.gotContext ? (
           <Demo />
         ) : (
