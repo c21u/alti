@@ -7,7 +7,7 @@ const Layout = ({ children }) => (
     display="block"
     padding="small"
     background="light"
-    maxWidth="87%"
+    maxWidth="97%"
     margin="small auto"
     textAlign="center"
   >
