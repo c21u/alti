@@ -25,7 +25,8 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building Docker image...
-      - docker build --build-arg app_version=$APP_VERSION --cache-from $IMAGE_NAMESPACE/$IMAGE_NAME:$IMAGE_TAG_TEST -t $IMAGE_NAME:$GIT_COMMIT_HASH -t $IMAGE_NAME:$IMAGE_TAG_TEST .
+      - echo Cache from $REPO_URL:$IMAGE_TAG_TEST
+      - docker build --build-arg app_version=$APP_VERSION --cache-from $REPO_URL:$IMAGE_TAG_TEST -t $IMAGE_NAME:$GIT_COMMIT_HASH -t $IMAGE_NAME:$IMAGE_TAG_TEST .
       - docker tag $IMAGE_NAME:$IMAGE_TAG_TEST $REPO_URL:$IMAGE_TAG_TEST
       - docker tag $IMAGE_NAME:$IMAGE_TAG_TEST $REPO_URL:$GIT_COMMIT_HASH
   post_build:
