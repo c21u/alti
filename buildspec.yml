@@ -18,6 +18,9 @@ phases:
 
       - echo Logging in to ECR...
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+
+      - docker version
+      - docker pull $REPO_URL:$IMAGE_TAG_TEST || true
   build:
     commands:
       - echo Build started on `date`
@@ -31,5 +34,9 @@ phases:
       - echo Pushing Docker image and tags...
       - docker push $REPO_URL:$IMAGE_TAG_TEST
       - docker push $REPO_URL:$GIT_COMMIT_HASH
-      - aws ecs update-service --cluster eduapp-test --service alti-test --force-new-deployment
+
+      # Update the service.
+      # Discard the default output (json full description of the service.)
+      - aws ecs update-service --cluster eduapp-test --service alti-test --force-new-deployment 1>/dev/null
+
       - echo Done
