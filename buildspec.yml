@@ -5,9 +5,6 @@ env:
     AWS_ACCOUNT_ID: "332672892491"
     IMAGE_NAME: "alti"
     IMAGE_NAMESPACE: "eduapps"
-    IMAGE_TAG_PROD: "prod"
-    IMAGE_TAG_TEST: "test"
-    SPECIAL: "helloworld"
 
 phases:
   pre_build:
@@ -16,8 +13,8 @@ phases:
       - PACKAGE_VERSION=$(awk -F\" '/"version":/ {print $4}' package.json)
       - APP_VERSION=$PACKAGE_VERSION-$GIT_COMMIT_HASH
       - REPO_URL=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_NAMESPACE/$IMAGE_NAME
-
-      - printenv
+      - TAG=${IMAGE_TAG:-latest}
+      - echo $TAG
 
       - echo Logging in to ECR...
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
