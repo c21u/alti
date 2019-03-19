@@ -18,7 +18,13 @@ const getEnvVarOrNull = envVar => {
 };
 
 const config = {};
+
 /* Set default values assuming NODE_ENV === production */
+
+config.analytics = {
+  id: getEnvVarOrNull("ANALYTICS_ID")
+};
+
 config.buzzAPI = {
   appID: getEnvVarOrDefault("BUZZAPI_APP_ID"),
   password: getEnvVarOrDefault("BUZZAPI_PASSWORD")
@@ -28,7 +34,6 @@ config.canvas = {
   token: getEnvVarOrDefault("CANVAS_TOKEN")
 };
 config.fakeStrategyCredentials = {};
-config.googleAnalyticsID = getEnvVarOrNull("GOOGLE_ANALYTICS_ID");
 config.jwtSecret = getEnvVarOrDefault("JWT_SECRET");
 config.lti = {
   key: getEnvVarOrDefault("LTI_KEY"),

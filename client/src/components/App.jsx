@@ -1,4 +1,6 @@
 import React from "react";
+import ReactGA from "react-ga";
+import qs from "qs";
 import Spinner from "@instructure/ui-elements/lib/components/Spinner";
 import View from "@instructure/ui-layout/lib/components/View";
 import agent from "../agent";
@@ -19,6 +21,20 @@ class App extends React.Component {
    * Request context when component mounts.
    */
   componentDidMount() {
+    const queryParameters = window.location.search;
+
+    let analyticsId;
+    try {
+      analyticsId = qs.parse(queryParameters, { ignoreQueryPrefix: true })
+        .analyticsId;
+    } catch (err) {}
+
+    if (analyticsId) {
+      ReactGA.initialize(analyticsId);
+      ReactGA.set({ title: "LTI App" });
+      ReactGA.pageview(window.location.pathname);
+    }
+
     agent.getContext().then(response => {
       console.log(`app version:`);
       console.log(`${response.data.version}`);

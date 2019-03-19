@@ -33,9 +33,9 @@ router.post(
     if (req.user) {
       const parameters = {};
       parameters.token = issueToken(req);
-      const googleAnalyticsID = require("../config")["googleAnalyticsID"];
-      if (!!googleAnalyticsID) {
-        parameters.ga = googleAnalyticsID;
+      const analyticsId = require("../config").analytics.id;
+      if (analyticsId) {
+        parameters.analyticsId = analyticsId;
       }
 
       res.set({
