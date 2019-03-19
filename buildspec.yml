@@ -18,9 +18,6 @@ phases:
 
       - echo Logging in to ECR...
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
-
-      - docker version
-      - docker pull $REPO_URL:$IMAGE_TAG_TEST || true
   build:
     commands:
       - echo Build started on `date`
