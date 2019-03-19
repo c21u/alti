@@ -7,6 +7,7 @@ env:
     IMAGE_NAMESPACE: "eduapps"
     IMAGE_TAG_PROD: "prod"
     IMAGE_TAG_TEST: "test"
+    SPECIAL: "helloworld"
 
 phases:
   pre_build:
