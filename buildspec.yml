@@ -5,9 +5,6 @@ env:
     AWS_ACCOUNT_ID: "332672892491"
     IMAGE_NAME: "alti"
     IMAGE_NAMESPACE: "eduapps"
-    IMAGE_TAG_PROD: "prod"
-    IMAGE_TAG_TEST: "test"
-    SPECIAL: "helloworld"
 
 phases:
   pre_build:
@@ -16,26 +13,26 @@ phases:
       - PACKAGE_VERSION=$(awk -F\" '/"version":/ {print $4}' package.json)
       - APP_VERSION=$PACKAGE_VERSION-$GIT_COMMIT_HASH
       - REPO_URL=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_NAMESPACE/$IMAGE_NAME
-
-      - printenv
+      - TAG=${IMAGE_TAG:-latest}
+      - echo $TAG
 
       - echo Logging in to ECR...
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
 
-      - docker pull $REPO_URL:$IMAGE_TAG_TEST || true
+      - docker pull $REPO_URL:$TAG || true
   build:
     commands:
       - echo Build started on `date`
       - echo Building Docker image...
-      - echo Cache from $REPO_URL:$IMAGE_TAG_TEST
-      - docker build --build-arg app_version=$APP_VERSION --cache-from $REPO_URL:$IMAGE_TAG_TEST -t $IMAGE_NAME:$GIT_COMMIT_HASH -t $IMAGE_NAME:$IMAGE_TAG_TEST .
-      - docker tag $IMAGE_NAME:$IMAGE_TAG_TEST $REPO_URL:$IMAGE_TAG_TEST
-      - docker tag $IMAGE_NAME:$IMAGE_TAG_TEST $REPO_URL:$GIT_COMMIT_HASH
+      - echo Cache from $REPO_URL:$TAG
+      - docker build --build-arg app_version=$APP_VERSION --cache-from $REPO_URL:$TAG -t $IMAGE_NAME:$GIT_COMMIT_HASH -t $IMAGE_NAME:$TAG .
+      - docker tag $IMAGE_NAME:$TAG $REPO_URL:$TAG
+      - docker tag $IMAGE_NAME:$TAG $REPO_URL:$GIT_COMMIT_HASH
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing Docker image and tags...
-      - docker push $REPO_URL:$IMAGE_TAG_TEST
+      - docker push $REPO_URL:$TAG
       - docker push $REPO_URL:$GIT_COMMIT_HASH
 
       # Update the service.
