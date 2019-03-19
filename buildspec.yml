@@ -16,10 +16,11 @@ phases:
       - APP_VERSION=$PACKAGE_VERSION-$GIT_COMMIT_HASH
       - REPO_URL=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_NAMESPACE/$IMAGE_NAME
 
+      - printenv
+
       - echo Logging in to ECR...
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
 
-      - docker version
       - docker pull $REPO_URL:$IMAGE_TAG_TEST || true
   build:
     commands:
