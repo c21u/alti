@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const sentryDSN = require("./config")["sentryDSN"];
 
 const logger = require("./lib/logger");
-logger.info(`app version: ${process.env.APP_VERSION}`);
+logger.info(`app version is: ${process.env.APP_VERSION}`);
 
 if (sentryDSN) {
   const Sentry = require("@sentry/node");
