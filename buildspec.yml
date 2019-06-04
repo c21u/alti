@@ -31,23 +31,18 @@ phases:
       - $(aws ecr get-login --no-include-email --region $AWS_REGION)
 
       # Pull each image layer for the build to cache from.
-      - docker pull $REPO_URL:install-stage || true
       - docker pull $REPO_URL:build-stage || true
       - docker pull $REPO_URL:$TAG || true
   build:
     commands:
-      - docker build --cache-from $REPO_URL:install-stage --target install-stage -t $IMAGE_NAME:install-stage .
-      - docker tag $IMAGE_NAME:install-stage $REPO_URL:install-stage
-
-      - docker build --cache-from $REPO_URL:install-stage --cache-from $REPO_URL:build-stage --target build-stage -t $IMAGE_NAME:build-stage .
+      - docker build --cache-from $REPO_URL:build-stage --target build-stage -t $IMAGE_NAME:build-stage .
       - docker tag $IMAGE_NAME:build-stage $REPO_URL:build-stage
 
-      - docker build --build-arg app_version=$APP_VERSION --cache-from $REPO_URL:install-stage --cache-from $REPO_URL:build-stage --cache-from $REPO_URL:$TAG -t $IMAGE_NAME:$GIT_COMMIT_HASH -t $IMAGE_NAME:$TAG .
+      - docker build --build-arg app_version=$APP_VERSION --cache-from $REPO_URL:build-stage --cache-from $REPO_URL:$TAG -t $IMAGE_NAME:$GIT_COMMIT_HASH -t $IMAGE_NAME:$TAG .
       - docker tag $IMAGE_NAME:$TAG $REPO_URL:$TAG
       - docker tag $IMAGE_NAME:$TAG $REPO_URL:$GIT_COMMIT_HASH
   post_build:
     commands:
-      - docker push $REPO_URL:install-stage
       - docker push $REPO_URL:build-stage
       - docker push $REPO_URL:$TAG
       - docker push $REPO_URL:$GIT_COMMIT_HASH
