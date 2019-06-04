@@ -1,0 +1,40 @@
+version: "3.4"
+services:
+  app:
+    container_name: alti
+    build:
+      context: .
+      target: final
+    environment:
+      - CANVAS_API_URL
+      - CANVAS_TOKEN
+      - LTI_KEY
+      - LTI_SECRET
+      - TRUST_PROXY
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+  e2e:
+    container_name: cypress
+    build: ./e2e
+    depends_on:
+      - app
+      - reverse-proxy
+    environment:
+      - APP_URL=https://reverse-proxy/
+      - CYPRESS_baseUrl=http://reverse-proxy
+      - LTI_KEY
+      - LTI_SECRET
+    volumes:
+      - ./e2e/cypress:/app/cypress
+      - ./e2e/cypress.json:/app/cypress.json
+    command: npx cypress run
+  reverse-proxy:
+    container_name: nginx
+    image: nginx
+    ports:
+      - "443:443"
+    volumes:
+      - ./e2e/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./e2e/nginx/certs/:/etc/nginx/certs/:ro
