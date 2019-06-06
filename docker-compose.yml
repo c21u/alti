@@ -12,29 +12,19 @@ services:
       - LTI_SECRET
       - TRUST_PROXY
     ports:
-      - "3000:3000"
-    expose:
-      - "3000"
+      - "${CI_APP_PORT}"
   e2e:
     container_name: cypress
     build: ./e2e
     depends_on:
       - app
-      - reverse-proxy
     environment:
-      - APP_URL=https://reverse-proxy/
-      - CYPRESS_baseUrl=http://reverse-proxy
+      - CI=1
+      - APP_URL=${CI_APP_URL}
+      - CYPRESS_baseUrl=${CI_CYPRESS_baseUrl}
       - LTI_KEY
       - LTI_SECRET
     volumes:
-      - ./e2e/cypress:/app/cypress
-      - ./e2e/cypress.json:/app/cypress.json
+      - ./e2e/cypress:/app/cypress:rw
+      - ./e2e/cypress.json:/app/cypress.json:ro
     command: npx cypress run
-  reverse-proxy:
-    container_name: nginx
-    image: nginx
-    ports:
-      - "443:443"
-    volumes:
-      - ./e2e/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./e2e/nginx/certs/:/etc/nginx/certs/:ro
