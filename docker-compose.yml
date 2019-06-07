@@ -20,6 +20,7 @@ services:
       - app
     environment:
       - CI=1
+      - NO_COLOR
       - APP_URL=${CI_APP_URL}
       - CYPRESS_baseUrl=${CI_CYPRESS_baseUrl}
       - LTI_KEY
