@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Update configurations: buildspec, Dockerfile.
+- Upgrade dependencies.
+
+### Added
+- Add Cypress for end-to-end testing.
+- Add CACCL Canvas API library.
+
+### Removed
+- Makefile removed.
+- Dependency on momentjs removed.
 
 ## [0.4.0] - 2019-06-24
 ### Added
@@ -53,7 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initialize versioning.
 
-[Unreleased]: https://github.gatech.edu/c21u/alti/compare/v0.4.0...dev
+[Unreleased]: https://github.gatech.edu/c21u/alti/compare/v0.4.0...test
 [0.4.0]: https://github.gatech.edu/c21u/alti/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.gatech.edu/c21u/alti/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.gatech.edu/c21u/alti/compare/v0.1.0...v0.2.0
