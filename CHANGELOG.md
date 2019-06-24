@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2019-06-24
+### Added
+- Change UI to display app version.
+- Add Google Analytics helper.
+
+### Changed
+- Update configurations: buildspec, Dockerfile, readme.
+- Various build config tweaks to figure out how CI/CD works.
+- Edit and upgrade dependencies.
+
+### Removed
+- Remove unused HTML templating.
+
 ## [0.3.0] - 2019-02-19
 ### Added
 - Included layout/frame/wrapper common component.
@@ -40,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initialize versioning.
 
-[Unreleased]: https://github.gatech.edu/c21u/alti/compare/v0.3.0...dev
+[Unreleased]: https://github.gatech.edu/c21u/alti/compare/v0.4.0...dev
+[0.4.0]: https://github.gatech.edu/c21u/alti/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.gatech.edu/c21u/alti/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.gatech.edu/c21u/alti/compare/v0.1.0...v0.2.0
