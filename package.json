@@ -49,7 +49,6 @@
     "ims-lti": "^3.0.2",
     "jsonwebtoken": "^8.3.0",
     "jwt-decode": "^2.2.0",
-    "moment": "^2.22.2",
     "parse-link-header": "^1.0.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
