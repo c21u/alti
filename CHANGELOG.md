@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] - 2019-06-26
+### Changed
+- Rewrite some tests to use Cypress.
+- Update gitignore to exclude cypress.env.json.
+
 ## [0.5.0] - 2019-06-24
 ### Changed
 - Update configurations: buildspec, Dockerfile.
@@ -66,7 +71,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initialize versioning.
 
-[Unreleased]: https://github.gatech.edu/c21u/alti/compare/v0.5.0...test
+[Unreleased]: https://github.gatech.edu/c21u/alti/compare/v0.5.1...test
+[0.5.1]: https://github.gatech.edu/c21u/alti/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.gatech.edu/c21u/alti/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.gatech.edu/c21u/alti/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.gatech.edu/c21u/alti/compare/v0.2.0...v0.3.0
