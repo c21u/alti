@@ -1,3 +1,4 @@
+cypress.env.json
 install.dev.xml
 install.prod.xml
 dist/
