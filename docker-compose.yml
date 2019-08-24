@@ -2,17 +2,16 @@ version: "3.4"
 services:
   app:
     container_name: alti
-    build:
-      context: .
-      target: final
+    build: .
     environment:
       - CANVAS_API_URL
       - CANVAS_TOKEN
       - LTI_KEY
       - LTI_SECRET
       - TRUST_PROXY
+      - VIRTUAL_HOST
     ports:
-      - "${CI_APP_PORT}"
+      - "3000"
   e2e:
     container_name: cypress
     build: ./e2e
@@ -29,3 +28,12 @@ services:
       - ./e2e/cypress:/app/cypress:rw
       - ./e2e/cypress.json:/app/cypress.json:ro
     command: npx cypress run
+  reverse-proxy:
+    container_name: nginx
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - $HOME/certs:/etc/nginx/certs
