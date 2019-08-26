@@ -33,7 +33,6 @@ config.canvas = {
   apiUrl: getEnvVarOrDefault("CANVAS_API_URL"),
   token: getEnvVarOrDefault("CANVAS_TOKEN")
 };
-config.fakeStrategyCredentials = {};
 config.jwtSecret = getEnvVarOrDefault("JWT_SECRET");
 config.lti = {
   key: getEnvVarOrDefault("LTI_KEY"),
@@ -49,12 +48,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 if (process.env.NODE_ENV === "test") {
-  config.fakeStrategyCredentials = {
-    username: getEnvVarOrDefault("FAKE_USERNAME"),
-    password: getEnvVarOrDefault("FAKE_PASSWORD")
-  };
   config.logLevel = "error";
-  config.passportStrategy = "fake";
 }
 
 module.exports = config;

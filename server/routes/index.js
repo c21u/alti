@@ -19,7 +19,6 @@ function issueToken(req) {
 
 // Passport initialized here but actually used as passport.authenticate()
 router.use(passport.initialize());
-const passportStrategy = require("../config")["passportStrategy"];
 
 // health check endpoint
 router.get("/z", (req, res, next) => {
@@ -28,7 +27,7 @@ router.get("/z", (req, res, next) => {
 
 router.post(
   "/",
-  passport.authenticate(passportStrategy, { session: false }),
+  passport.authenticate("lti", { session: false }),
   (req, res, next) => {
     if (req.user) {
       const parameters = {};
