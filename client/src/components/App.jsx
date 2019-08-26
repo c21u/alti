@@ -1,8 +1,8 @@
 import React from "react";
 import ReactGA from "react-ga";
 import qs from "qs";
-import Spinner from "@instructure/ui-elements/lib/components/Spinner";
-import View from "@instructure/ui-layout/lib/components/View";
+import { Spinner } from "@instructure/ui-elements";
+import { View } from "@instructure/ui-layout";
 import agent from "../agent";
 import Demo from "./Demo";
 import Layout from "./Layout";

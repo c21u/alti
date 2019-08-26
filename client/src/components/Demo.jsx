@@ -1,7 +1,7 @@
 import React from "react";
 import agent from "../agent";
-import Text from "@instructure/ui-elements/lib/components/Text";
-import View from "@instructure/ui-layout/lib/components/View";
+import { Text } from "@instructure/ui-elements";
+import { View } from "@instructure/ui-layout";
 
 /**
  * This component requests an endpoint that does a basic check of

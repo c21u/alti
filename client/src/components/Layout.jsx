@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Text from "@instructure/ui-elements/lib/components/Text";
-import View from "@instructure/ui-layout/lib/components/View";
+import { Text } from "@instructure/ui-elements";
+import { View } from "@instructure/ui-layout";
 
 const Layout = ({ children, versionInfo }) => (
   <View

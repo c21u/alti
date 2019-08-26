@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import theme from "@instructure/ui-themes/lib/canvas";
+import { theme } from "@instructure/canvas-theme";
 import App from "./components/App";
 
 theme.use();
