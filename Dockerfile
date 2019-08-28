@@ -6,13 +6,12 @@ COPY yarn.lock .
 
 RUN yarn install --production --no-progress --non-interactive
 
-COPY .eslintignore .
 COPY webpack.common.js .
 COPY webpack.prod.js .
 COPY client client
 COPY server server 
 
-RUN yarn build
+RUN yarn run build
 
 ARG app_version
 ENV APP_VERSION=$app_version
