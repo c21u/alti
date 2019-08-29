@@ -1,7 +1,8 @@
 # ALTI
 
-Steps for the new LTI after cloning this repo
-
+0. Clone this repo, replacing `<project>` with the new project name.
+ * `git clone -o alti -b master --single-branch git@github.gatech.edu:c21u/alti.git <project>`
+ 
 1. rename project
  * find and replace `alti` in the project (4 places, including changing the name for the Docker repo, and excluding this readme.)
 
