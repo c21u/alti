@@ -1,8 +1,8 @@
-version: "3.4"
+version: "3.8"
 services:
   app:
+    command: yarn run start-dev
     container_name: alti
-    build: .
     environment:
       - CANVAS_API_URL
       - CANVAS_TOKEN
@@ -10,24 +10,13 @@ services:
       - LTI_SECRET
       - TRUST_PROXY
       - VIRTUAL_HOST
+    image: node:lts
     ports:
       - "3000"
-  e2e:
-    container_name: cypress
-    build: ./e2e
-    depends_on:
-      - app
-    environment:
-      - CI=1
-      - NO_COLOR
-      - APP_URL=${CI_APP_URL}
-      - CYPRESS_baseUrl=${CI_CYPRESS_baseUrl}
-      - LTI_KEY
-      - LTI_SECRET
-    volumes:
-      - ./e2e/cypress:/app/cypress:rw
-      - ./e2e/cypress.json:/app/cypress.json:ro
-    command: npx cypress run
+    volumes: 
+      - nm:/app/node_modules
+      - .:/app
+    working_dir: /app/
   reverse-proxy:
     container_name: nginx
     image: jwilder/nginx-proxy
@@ -37,3 +26,7 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - $HOME/certs:/etc/nginx/certs
+
+volumes:
+  nm:
+    external: true
