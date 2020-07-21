@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:lts
 WORKDIR /app
 
 COPY package.json .
@@ -20,5 +20,4 @@ EXPOSE 3000
 
 USER node
 
-ENTRYPOINT [ "yarn" ]
-CMD [ "run", "start" ]
+CMD [ "yarn", "run", "start" ]

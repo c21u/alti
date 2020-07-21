@@ -1,9 +1,10 @@
 const expressJWT = require("express-jwt");
 
 module.exports = expressJWT({
+  algorithms: ["HS256"],
   secret: require("../config")["jwtSecret"],
   credentialsRequired: true,
-  getToken: req => {
+  getToken: (req) => {
     if (
       req.headers.authorization &&
       req.headers.authorization.split(" ")[0] === "Bearer"
@@ -13,5 +14,5 @@ module.exports = expressJWT({
       return req.query.token;
     }
     return null;
-  }
+  },
 });

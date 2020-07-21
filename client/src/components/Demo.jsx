@@ -1,7 +1,6 @@
 import React from "react";
 import agent from "../agent";
-import { Text } from "@instructure/ui-elements";
-import { View } from "@instructure/ui-layout";
+import { Text, View } from "@instructure/ui";
 
 /**
  * This component requests an endpoint that does a basic check of
@@ -13,7 +12,7 @@ class CanvasStatus extends React.Component {
     super(props);
     this.state = {
       isLoading: null,
-      responseOk: null
+      responseOk: null,
     };
   }
 
@@ -21,20 +20,20 @@ class CanvasStatus extends React.Component {
   componentDidMount() {
     this.setState({ isLoading: true });
     agent.Canvas.status()
-      .then(response => {
+      .then((response) => {
         if (!!response && !!response.status && response.status === "success") {
           this.setState({ isLoading: false, responseOk: true });
         } else {
           this.setState({ isLoading: false, responseOk: false });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({ isLoading: false });
         console.error(err);
       });
   }
 
-  /** @return {element} */
+  /** @return {object} */
   render() {
     return (
       <View display="block">
@@ -46,7 +45,7 @@ class CanvasStatus extends React.Component {
           ""
         )}
         {!this.state.isLoading && !this.state.responseOk ? (
-          <Text color="error">error</Text>
+          <Text color="danger">error</Text>
         ) : (
           ""
         )}
@@ -60,7 +59,6 @@ const Demo = () => {
     <View
       as="div"
       padding="small"
-      background="default"
       maxWidth="90%"
       margin="small auto"
       textAlign="center"

@@ -9,8 +9,8 @@ const createContext = require("../lib/util").createContext;
  */
 function getVersion() {
   const packageVersion = require("../../package.json").version;
-  return `${packageVersion}___${
-    process.env.APP_VERSION ? process.env.APP_VERSION : ""
+  return `${packageVersion}${
+    process.env.APP_VERSION ? `__${process.env.APP_VERSION}` : ""
   }`;
 }
 
@@ -19,7 +19,7 @@ router.use(jwtMiddleware);
 router.get("/context", (req, res, next) => {
   res.send({
     context: createContext(req.user),
-    data: { version: getVersion() }
+    data: { version: getVersion() },
   });
 });
 
@@ -27,7 +27,7 @@ const Data = require("../lib/dataLayer");
 
 const canvasStatusHandler = require("./canvasStatusHandler")(Data);
 router.get("/canvas-status", (req, res, next) => {
-  canvasStatusHandler(req).then(response => res.send(response));
+  canvasStatusHandler(req).then((response) => res.send(response));
 });
 
 module.exports = router;

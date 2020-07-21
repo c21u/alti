@@ -6,12 +6,13 @@ const instructureUiConfig = require("@instructure/ui-webpack-config");
 
 module.exports = {
   ...instructureUiConfig,
+  context: path.resolve(__dirname, "client/src"),
   entry: {
-    app: "./client/src/index.jsx"
+    app: "./index.jsx",
   },
   output: {
     filename: "[name].bundle.js",
-    path: path.resolve(__dirname, "dist")
+    path: path.resolve(__dirname, "dist"),
   },
   module: {
     rules: [
@@ -20,23 +21,20 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
-          options: {
-            presets: [
-              "@babel/env",
-              "@babel/preset-react",
-              require("@instructure/ui-babel-preset")
-            ]
-          }
-        }
-      }
-    ]
+        },
+      },
+      ...instructureUiConfig.module.rules,
+    ],
   },
   plugins: [
     ...instructureUiConfig.plugins,
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new HTMLWebpackPlugin({
-      template: "client/src/index.html"
-    })
+      template: "index.html",
+    }),
   ],
-  resolve: { extensions: [".js", ".jsx"] }
+  resolve: { extensions: [".js", ".jsx"] },
+  resolveLoader: {
+    alias: { ...instructureUiConfig.resolveLoader.alias },
+  },
 };
