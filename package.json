@@ -1,7 +1,8 @@
 {
   "name": "alti",
   "version": "0.5.1",
-  "private": true,
+  "private": false,
+  "license": "MIT",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "cy:open": "cypress open",
