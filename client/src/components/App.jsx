@@ -1,8 +1,7 @@
 import React from "react";
 import ReactGA from "react-ga";
 import qs from "qs";
-import { Spinner } from "@instructure/ui-elements";
-import { View } from "@instructure/ui-layout";
+import { Spinner, View } from "@instructure/ui";
 import agent from "../agent";
 import Demo from "./Demo";
 import Layout from "./Layout";
@@ -14,7 +13,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       gotContext: false,
-      versionInfo: null
+      versionInfo: null,
     };
   }
 
@@ -36,7 +35,7 @@ class App extends React.Component {
       ReactGA.pageview(window.location.pathname);
     }
 
-    agent.getContext().then(response => {
+    agent.getContext().then((response) => {
       this.setState({ gotContext: true });
       if (response.data.version) {
         this.setState({ versionInfo: response.data.version });
@@ -45,7 +44,7 @@ class App extends React.Component {
   }
 
   /**
-   * @return {Element} Render the App component.
+   * @return {object} Render the App component.
    */
   render() {
     return (
@@ -54,7 +53,7 @@ class App extends React.Component {
           <Demo />
         ) : (
           <View as="div" margin="large auto" textAlign="center">
-            <Spinner size="large" title="Loading..." />
+            <Spinner size="large" renderTitle="Loading..." />
           </View>
         )}
       </Layout>

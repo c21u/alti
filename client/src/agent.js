@@ -1,9 +1,6 @@
 const jwtDecode = require("jwt-decode");
 const qs = require("qs");
-import _superagent from "superagent";
-import superagentPromise from "superagent-promise";
-
-const superagent = superagentPromise(_superagent, global.Promise);
+import superagent from "superagent";
 
 const API_ROOT = "/api";
 const QUERY_PARAMETERS = window.location.search;
@@ -22,13 +19,13 @@ function parseQueryParams(item) {
   return false;
 }
 
-const handleErrors = err => {
+const handleErrors = (err) => {
   return err;
 };
 
-const responseBody = res => res.body;
+const responseBody = (res) => res.body;
 
-const tokenPlugin = req => {
+const tokenPlugin = (req) => {
   let jwt;
   const token = parseQueryParams("token");
   try {
@@ -41,24 +38,24 @@ const tokenPlugin = req => {
 };
 
 const requests = {
-  get: url => {
+  get: (url) => {
     return superagent
       .get(`${API_ROOT}${url}`)
       .use(tokenPlugin)
-      .end(handleErrors)
+      .then(handleErrors)
       .then(responseBody);
-  }
+  },
 };
 
 const Canvas = {
   status: () => {
     return requests.get(`/canvas-status/`);
-  }
+  },
 };
 
 const getContext = () => requests.get(`/context/`);
 
 export default {
   Canvas,
-  getContext
+  getContext,
 };
