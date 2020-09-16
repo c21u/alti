@@ -1,4 +1,4 @@
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const common = require("./webpack.common");
 
 module.exports = merge(common, {
@@ -9,8 +9,8 @@ module.exports = merge(common, {
     port: 3001,
     proxy: {
       "/": {
-        target: "http://0.0.0.0:3000"
-      }
-    }
-  }
+        target: "http://0.0.0.0:3000",
+      },
+    },
+  },
 });

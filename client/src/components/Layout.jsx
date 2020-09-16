@@ -1,20 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Text } from "@instructure/ui-elements";
-import { View } from "@instructure/ui-layout";
+import { Text, View } from "@instructure/ui";
 
 const Layout = ({ children, versionInfo }) => (
-  <View
-    display="block"
-    padding="small"
-    background="light"
-    maxWidth="97%"
-    margin="small auto"
-    textAlign="center"
-  >
-    <View display="block" background="default" padding="small">
+  <View as="div" width="100%">
+    <View as="div" margin="none auto" maxWidth="59.25rem" minWidth="20.00rem">
       {children}
-      <View display="block">
+      <View as="div" padding="medium" textAlign="center">
         <Text color="secondary" size="x-small">
           {versionInfo}
         </Text>
@@ -23,8 +15,8 @@ const Layout = ({ children, versionInfo }) => (
   </View>
 );
 Layout.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  versionInfo: PropTypes.string
+  children: PropTypes.node,
+  versionInfo: PropTypes.string,
 };
 
 export default Layout;

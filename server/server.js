@@ -2,15 +2,13 @@ const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const Sentry = require("@sentry/node");
 const sentryDSN = require("./config")["sentryDSN"];
-
 const logger = require("./lib/logger");
-logger.info(`app version is: ${process.env.APP_VERSION}`);
 
-if (sentryDSN) {
-  const Sentry = require("@sentry/node");
-  Sentry.init({ dsn: sentryDSN });
-}
+Sentry.init({ dsn: sentryDSN });
+
+logger.info(`app version is: ${process.env.APP_VERSION}`);
 
 const indexRouter = require("./routes");
 const apiRouter = require("./routes/api");
@@ -19,9 +17,7 @@ const app = express();
 
 app.set("trust proxy", require("./config")["trustProxy"]);
 
-if (sentryDSN) {
-  app.use(Sentry.Handlers.requestHandler());
-}
+app.use(Sentry.Handlers.requestHandler());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -49,9 +45,7 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-if (sentryDSN) {
-  app.use(Sentry.Handlers.errorHandler());
-}
+app.use(Sentry.Handlers.errorHandler());
 
 // error handler
 app.use(function(err, req, res, next) {
