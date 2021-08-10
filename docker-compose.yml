@@ -1,8 +1,7 @@
-version: "3.8"
+version: "2.4"
 services:
   app:
-    command: yarn run start-dev
-    container_name: alti
+    build: .
     environment:
       - APP_VERSION=develop
       - CANVAS_API_URL
@@ -10,25 +9,21 @@ services:
       - LTI_KEY
       - LTI_SECRET
       - NODE_ENV=development
-      - TRUST_PROXY
-      - VIRTUAL_HOST
-    image: node:lts
+      - TRUST_PROXY=uniquelocal
     ports:
       - "3000"
-    volumes:
-      - nm:/app/node_modules
-      - .:/app
-    working_dir: /app/
+    labels:
+      - "traefik.http.routers.ltitool.rule=Host(`dev.127.0.0.1.nip.io`)"
+      - "traefik.http.routers.ltitool.tls=true"
+      - "traefik.http.routers.ltitool.entrypoints=https"
+
   reverse-proxy:
-    container_name: nginx
-    image: jwilder/nginx-proxy
+    image: traefik:v2.0
     ports:
       - "80:80"
       - "443:443"
+      - "8080:8080"
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - $HOME/certs:/etc/nginx/certs
-
-volumes:
-  nm:
-    external: true
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - $HOME/certs:/data/traefik:ro
+      - ./traefik:/etc/traefik:ro
