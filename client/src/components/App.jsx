@@ -37,7 +37,7 @@ const App = () => {
         setVersionInfo(response.data.version);
       }
     });
-  }, [gotContext]);
+  }, []);
 
   return (
     <Layout versionInfo={versionInfo || ""}>

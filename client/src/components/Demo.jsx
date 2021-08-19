@@ -22,7 +22,7 @@ const CanvasStatus = () => {
       )
       .catch((err) => console.error(err))
       .finally(() => setIsLoading(false));
-  }, [responseOk]);
+  }, []);
 
   return (
     <View display="block">
