@@ -24,9 +24,9 @@ const logger = new bunyan.createLogger({
   streams: [
     {
       level: getLogLevel(),
-      stream: process.stdout
-    }
-  ]
+      stream: process.stdout,
+    },
+  ],
 });
 
 module.exports = logger;

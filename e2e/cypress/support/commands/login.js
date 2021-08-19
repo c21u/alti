@@ -3,7 +3,7 @@
  * @param {number} length
  * @return {string}
  */
-const randomString = length => {
+const randomString = (length) => {
   let text = "";
   const possible =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -16,7 +16,7 @@ const randomString = length => {
 /**
  * Login command to replicate LTI authentication.
  */
-Cypress.Commands.add("login", context => {
+Cypress.Commands.add("login", (context) => {
   /* Configure defaults */
   const appUrl = Cypress.env("APP_URL");
   const httpMethod = "POST";
@@ -38,7 +38,7 @@ Cypress.Commands.add("login", context => {
     oauth_timestamp: Math.floor(new Date().getTime() / 1000),
     oauth_version: "1.0",
     resource_link_id: randomString(8),
-    roles: roles
+    roles: roles,
   };
 
   /* Generate signature. */

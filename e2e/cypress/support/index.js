@@ -15,6 +15,6 @@
 
 require("./commands");
 
-Cypress.Commands.add("visitRedirect", response =>
+Cypress.Commands.add("visitRedirect", (response) =>
   cy.visit(response.redirectedToUrl)
 );

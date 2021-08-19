@@ -1,5 +1,5 @@
-const jwtDecode = require("jwt-decode");
-const qs = require("qs");
+import jwtDecode from "jwt-decode";
+import qs from "qs";
 import superagent from "superagent";
 
 const API_ROOT = "/api";
