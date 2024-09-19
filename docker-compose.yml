@@ -10,6 +10,12 @@ services:
       - LTI_SECRET
       - NODE_ENV=development
       - TRUST_PROXY=uniquelocal
+      - DB_HOST
+      - DB_NAME
+      - DB_USER
+      - DB_PASS
+      - CANVAS_URL
+      - CLIENT_ID
     ports:
       - "3000"
     labels:

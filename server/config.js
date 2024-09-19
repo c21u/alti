@@ -39,7 +39,6 @@ config.lti = {
   secret: getEnvVarOrDefault("LTI_SECRET"),
 };
 config.logLevel = getEnvVarOrDefault("LOG_LEVEL", "info");
-config.passportStrategy = "lti";
 config.sentryDSN = getEnvVarOrNull("SENTRY_DSN");
 config.trustProxy = getEnvVarOrDefault("TRUST_PROXY", "loopback");
 

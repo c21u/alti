@@ -26,12 +26,8 @@ const handleErrors = (err) => {
 const responseBody = (res) => res.body;
 
 const tokenPlugin = (req) => {
-  let jwt;
-  const token = parseQueryParams("token");
   try {
-    jwtDecode(token);
-    jwt = token;
-    req.set("Authorization", `Bearer ${jwt}`);
+    req.set("Authorization", `Bearer ${getLtik()}`);
   } catch (reason) {
     console.error(reason);
   }
@@ -52,6 +48,13 @@ const Canvas = {
     return requests.get(`/canvas-status/`);
   },
 };
+
+const getLtik = () => {
+  const searchParams = new URLSearchParams(window.location.search)
+  const ltik = searchParams.get('ltik')
+  if (!ltik) throw new Error('Missing lti key.')
+  return ltik
+}
 
 const getContext = () => requests.get(`/context/`);
 

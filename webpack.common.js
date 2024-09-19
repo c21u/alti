@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require('webpack')
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 
@@ -22,12 +23,19 @@ module.exports = {
           options: { sourceType: "module" },
         },
       },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
     ],
   },
   plugins: [
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new HTMLWebpackPlugin({
       template: "index.html",
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser.js',
     }),
   ],
 };

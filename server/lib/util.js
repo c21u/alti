@@ -26,11 +26,27 @@ const getRole = (userRoles) => {
 };
 
 module.exports = {
-  createContext: (user) => ({
-    courseId: user.custom_canvas_course_id || null,
-    userId: user.custom_lis_user_username || null,
-    userRole: getRole(user.roles),
-  }),
+  createContext: (req, res) => {
+    const token = res.locals.token
+    const context = res.locals.context
+  
+    const info = {}
+    if (token.userInfo) {
+      if (token.userInfo.name) info.name = token.userInfo.name
+      if (token.userInfo.email) info.email = token.userInfo.email
+    }
+  
+    if (context.roles) info.roles = context.roles
+    if (context.context) info.context = context.context
+
+    // courseId: user.custom_canvas_course_id || null,
+    return {
+      userId: info.name,
+      userRole: info.roles,
+      info: info,
+      idtoken : res.locals.idtoken 
+    }
+  },
   parseQueryParameters: (headers) => {
     // match / or ? or both at the start of the location string, and remove.
     const queryString = headers.location.replace(/^\/?\??/, "");

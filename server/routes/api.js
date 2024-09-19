@@ -1,7 +1,6 @@
 const express = require("express");
 // eslint-disable-next-line new-cap
 const router = express.Router();
-const jwtMiddleware = require("../lib/jwt");
 const createContext = require("../lib/util").createContext;
 
 /**
@@ -14,11 +13,9 @@ function getVersion() {
   }`;
 }
 
-router.use(jwtMiddleware);
-
 router.get("/context", (req, res, next) => {
   res.send({
-    context: createContext(req.user),
+    context: createContext(req, res),
     data: { version: getVersion() },
   });
 });
