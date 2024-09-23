@@ -83,7 +83,6 @@ lti.app.set("view engine", "ejs");
 
 lti.app.use(express.json({ limit: "10mb" }));
 lti.app.use(express.urlencoded({ extended: false, limit: "10mb" }));
-lti.app.use(cookieParser());
 lti.app.use(express.static(path.join(__dirname, "..", "dist")));
 
 lti.app.use((req, res, next) => {
