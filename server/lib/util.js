@@ -1,4 +1,4 @@
-const qs = require("qs");
+import qs from "qs";
 
 const getRole = (userRoles) => {
   const instructorRegex = /.*instructor.*/i;
@@ -25,17 +25,21 @@ const getRole = (userRoles) => {
   return "unknown";
 };
 
-module.exports = {
-  createContext: (user) => ({
-    courseId: user.custom_canvas_course_id || null,
-    userId: user.custom_lis_user_username || null,
-    userRole: getRole(user.roles),
-  }),
-  parseQueryParameters: (headers) => {
-    // match / or ? or both at the start of the location string, and remove.
-    const queryString = headers.location.replace(/^\/?\??/, "");
-    return qs.parse(queryString, {
-      ignoreQueryPrefix: true,
-    });
-  },
+export const createContext = (user) => ({
+  courseId: user.custom_canvas_course_id || null,
+  userId: user.custom_lis_user_username || null,
+  userRole: getRole(user.roles),
+});
+
+export const parseQueryParameters = (headers) => {
+  // match / or ? or both at the start of the location string, and remove.
+  const queryString = headers.location.replace(/^\/?\??/, "");
+  return qs.parse(queryString, {
+    ignoreQueryPrefix: true,
+  });
+};
+
+export default {
+  createContext,
+  parseQueryParameters,
 };

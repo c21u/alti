@@ -1,7 +1,7 @@
-const passport = require("passport");
-const PassportLTIStrategy = require("passport-lti");
-const imsLTI = require("ims-lti");
-const ltiAuth = require("../config")["lti"];
+import passport from "passport";
+import PassportLTIStrategy from "passport-lti";
+import imsLTI from "ims-lti";
+import { lti as ltiAuth } from "../config.js";
 
 const ltiStrategy = new PassportLTIStrategy(
   {
@@ -21,4 +21,4 @@ const ltiStrategy = new PassportLTIStrategy(
 
 passport.use("lti", ltiStrategy);
 
-module.exports = passport;
+export default passport;

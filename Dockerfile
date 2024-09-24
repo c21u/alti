@@ -7,7 +7,8 @@ COPY yarn.lock .
 RUN yarn install --no-progress --non-interactive
 
 COPY .eslintignore .
-COPY .eslintrc.js .
+COPY .eslintrc.cjs .
+COPY .babelrc.json .
 COPY webpack.common.js .
 COPY webpack.prod.js .
 COPY client client

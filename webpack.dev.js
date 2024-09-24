@@ -1,7 +1,7 @@
-const { merge } = require("webpack-merge");
-const common = require("./webpack.common");
+import { merge } from "webpack-merge";
+import common from "./webpack.common.js";
 
-module.exports = merge(common, {
+export default merge(common, {
   mode: "development",
   devtool: "source-map",
   devServer: {
@@ -9,7 +9,7 @@ module.exports = merge(common, {
     port: 3001,
     proxy: {
       "/": {
-        target: "http://0.0.0.0:3000",
+        target: "http://localhost:3000",
       },
     },
   },

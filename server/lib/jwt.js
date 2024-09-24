@@ -1,8 +1,9 @@
-const expressJWT = require("express-jwt");
+import expressJWT from "express-jwt";
+import { jwtSecret } from "../config.js";
 
-module.exports = expressJWT({
+export default expressJWT({
   algorithms: ["HS256"],
-  secret: require("../config")["jwtSecret"],
+  secret: jwtSecret,
   credentialsRequired: true,
   getToken: (req) => {
     if (

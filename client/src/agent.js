@@ -9,7 +9,7 @@ const QUERY_PARAMETERS = window.location.search;
  * @param {string} item
  * @return {(string|boolean)}
  */
-function parseQueryParams(item) {
+const parseQueryParams = (item) => {
   if (!item) return false;
   try {
     return qs.parse(QUERY_PARAMETERS, { ignoreQueryPrefix: true })[item];
@@ -17,7 +17,7 @@ function parseQueryParams(item) {
     console.error(reason);
   }
   return false;
-}
+};
 
 const handleErrors = (err) => {
   return err;

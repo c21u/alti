@@ -1,7 +1,7 @@
-const Canvas = require("./canvas");
+import Canvas from "./canvas.js";
 
 const Data = {};
 
 Data.getAccounts = () => Canvas.get("/accounts");
 
-module.exports = Data;
+export default Data;

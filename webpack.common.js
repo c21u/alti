@@ -1,33 +1,57 @@
-const path = require("path");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const HTMLWebpackPlugin = require("html-webpack-plugin");
+import { dirname, resolve } from "path";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import HTMLWebpackPlugin from "html-webpack-plugin";
+import { fileURLToPath } from "url";
+import { readFile } from "fs/promises";
+import webpack from "webpack";
 
-module.exports = {
-  context: path.resolve(__dirname, "client/src"),
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export default {
+  context: resolve(__dirname, "client/src"),
   entry: {
     app: "./index.jsx",
   },
   output: {
     filename: "[name].bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    path: resolve(__dirname, "dist"),
   },
   module: {
     rules: [
+      {
+        test: /\.m?js$/,
+        type: "javascript/auto",
+      },
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         resolve: { extensions: [".js", ".jsx"] },
         use: {
           loader: "babel-loader",
-          options: { sourceType: "module" },
+          options: JSON.parse(
+            await readFile(new URL("./.babelrc.json", import.meta.url))
+          ),
         },
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ["file-loader"],
       },
     ],
   },
   plugins: [
-    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
+    new CleanWebpackPlugin(),
     new HTMLWebpackPlugin({
       template: "index.html",
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
     }),
   ],
 };

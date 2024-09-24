@@ -1,21 +1,22 @@
-const express = require("express");
+import express from "express";
 // eslint-disable-next-line new-cap
 const router = express.Router();
-const jwt = require("jsonwebtoken");
-const jwtMiddleware = require("../lib/jwt");
-const passport = require("../lib/passport");
-const qs = require("qs");
+import jwt from "jsonwebtoken";
+import qs from "qs";
+import jwtMiddleware from "../lib/jwt.js";
+import passport from "../lib/passport.js";
+import { jwtSecret } from "../config.js";
 
 /**
  * Create a JWT with the given user.
  * @param {Request} req
  * @return {string} token
  */
-function issueToken(req) {
-  return jwt.sign(req.user, require("../config")["jwtSecret"], {
+const issueToken = (req) => {
+  return jwt.sign(req.user, jwtSecret, {
     expiresIn: 60 * 60 * 24 * 180 /* 180 days */,
   });
-}
+};
 
 // Passport initialized here but actually used as passport.authenticate()
 router.use(passport.initialize());
@@ -32,10 +33,6 @@ router.post(
     if (req.user) {
       const parameters = {};
       parameters.token = issueToken(req);
-      const analyticsId = require("../config").analytics.id;
-      if (analyticsId) {
-        parameters.analyticsId = analyticsId;
-      }
 
       res.set({
         "Cache-Control": "no-store",
@@ -55,4 +52,4 @@ router.get("/", (req, res, next) => {
   res.sendFile("index.html", { root: "dist" });
 });
 
-module.exports = router;
+export default router;
