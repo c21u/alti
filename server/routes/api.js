@@ -1,30 +1,37 @@
-const express = require("express");
+import express from "express";
+import { readFile } from "fs/promises";
 // eslint-disable-next-line new-cap
 const router = express.Router();
-const createContext = require("../lib/util").createContext;
+import Data from "../lib/dataLayer.js";
+import canvasStatusHandler from "./canvasStatusHandler.js";
+import { createContext } from "../lib/util.js";
+import { fileURLToPath } from "url";
+import { dirname, resolve } from "path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /**
  * @return {string}
  */
-function getVersion() {
-  const packageVersion = require("../../package.json").version;
+const getVersion = async () => {
+  const packageVersion = JSON.parse(
+    await readFile(resolve(__dirname, "..", "..", "package.json"))
+  ).version;
   return `${packageVersion}${
     process.env.APP_VERSION ? `__${process.env.APP_VERSION}` : ""
   }`;
-}
+};
 
-router.get("/context", (req, res, next) => {
+router.get("/context", async (req, res, next) => {
   res.send({
     context: createContext(req, res),
-    data: { version: getVersion() },
+    data: { version: await getVersion() },
   });
 });
 
-const Data = require("../lib/dataLayer");
-
-const canvasStatusHandler = require("./canvasStatusHandler")(Data);
+const canvas = canvasStatusHandler(Data);
 router.get("/canvas-status", (req, res, next) => {
-  canvasStatusHandler(req).then((response) => res.send(response));
+  canvas(req).then((response) => res.send(response));
 });
 
-module.exports = router;
+export default router;

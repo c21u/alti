@@ -1,9 +1,9 @@
-const superagent = require("superagent");
-const parseLinkHeader = require("parse-link-header");
+import superagent from "superagent";
+import parseLinkHeader from "parse-link-header";
 
-const cfg = require("../config").canvas;
+import { canvas as cfg } from "../config.js";
 const canvasToken = cfg.token;
-const API_ROOT = cfg.apiUrl;
+const API_ROOT = `https://${cfg.host}/api/v1`;
 
 const handleErrors = (err) => {
   return err;
@@ -22,7 +22,7 @@ const responseBodyAndLinks = (res) => {
   };
 };
 
-module.exports = {
+export default {
   get: (url) =>
     superagent
       .get(`${API_ROOT}${url}`)

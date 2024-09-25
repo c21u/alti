@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 
 const getEnvVarOrDefault = (envVar, defaultValue) => {
   defaultValue = defaultValue || envVar;
@@ -17,37 +17,49 @@ const getEnvVarOrNull = (envVar) => {
   }
 };
 
-const config = {};
-
 /* Set default values assuming NODE_ENV === production */
 
-config.analytics = {
-  id: getEnvVarOrNull("ANALYTICS_ID"),
-};
-
-config.buzzAPI = {
+export const buzzAPI = {
   appID: getEnvVarOrDefault("BUZZAPI_APP_ID"),
   password: getEnvVarOrDefault("BUZZAPI_PASSWORD"),
 };
-config.canvas = {
-  apiUrl: getEnvVarOrDefault("CANVAS_API_URL"),
+
+export const canvas = {
+  host: getEnvVarOrDefault("CANVAS_HOST"),
   token: getEnvVarOrDefault("CANVAS_TOKEN"),
 };
-config.jwtSecret = getEnvVarOrDefault("JWT_SECRET");
-config.lti = {
-  key: getEnvVarOrDefault("LTI_KEY"),
-  secret: getEnvVarOrDefault("LTI_SECRET"),
+
+export const db = {
+  name: getEnvVarOrDefault("DB_NAME", "postgres"),
+  user: getEnvVarOrDefault("DB_USER", "postgres"),
+  pass: getEnvVarOrDefault("DB_PASS", "altidb"),
+  host: getEnvVarOrDefault("DB_HOST", "db"),
 };
-config.logLevel = getEnvVarOrDefault("LOG_LEVEL", "info");
-config.sentryDSN = getEnvVarOrNull("SENTRY_DSN");
-config.trustProxy = getEnvVarOrDefault("TRUST_PROXY", "loopback");
 
-if (process.env.NODE_ENV === "development") {
-  config.logLevel = "debug";
-}
+export const jwtSecret = getEnvVarOrDefault("JWT_SECRET");
 
-if (process.env.NODE_ENV === "test") {
-  config.logLevel = "error";
-}
+export const lti = {
+  key: getEnvVarOrDefault("LTI_KEY"),
+  clientId: getEnvVarOrDefault("CLIENT_ID"),
+};
 
-module.exports = config;
+export const logLevel =
+  process.env.NODE_ENV === "development"
+    ? "debug"
+    : process.env.NODE_ENV === "test"
+    ? "error"
+    : getEnvVarOrDefault("LOG_LEVEL", "info");
+
+export const trustProxy = getEnvVarOrDefault("TRUST_PROXY", "loopback");
+
+const config = {
+  buzzAPI,
+  canvas,
+  db,
+  jwtSecret,
+  lti,
+  logLevel,
+  trustProxy,
+};
+
+export default config;

@@ -1,85 +1,90 @@
-const createError = require("http-errors");
-const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const Sentry = require("@sentry/node");
-const sentryDSN = require("./config")["sentryDSN"];
-const logger = require("./lib/logger");
+import createError from "http-errors";
+import express from "express";
+import path from "path";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { Provider as lti } from "ltijs";
+import Database from "ltijs-sequelize";
+import logger from "./lib/logger.js";
+import apiRouter from "./routes/api.js";
+import config from "./config.js";
+
+// eslint-disable-next-line new-cap
 const router = express.Router();
 
-const lti = require('ltijs').Provider
-const Database = require('ltijs-sequelize')
+const db = new Database(config.db.name, config.db.user, config.db.pass, {
+  host: config.db.host,
+  dialect: "postgres",
+  logging: false,
+});
 
-Sentry.init({ dsn: sentryDSN });
-
-const db = new Database(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, 
-  { 
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-    logging: false 
-  }
-)
-
-lti.setup(process.env.LTI_KEY,
-  { 
-    plugin: db
+lti.setup(
+  config.lti.key,
+  {
+    plugin: db,
   },
   {
-  staticPath: "dist",
-  cookies: {
-    secure: false,
-    sameSite: 'None'
-  },
-  tokenMaxAge: false,
-  devMode: true
-})
+    staticPath: "dist",
+    cookies: {
+      secure: false,
+      sameSite: "None",
+    },
+    tokenMaxAge: false,
+    devMode: true,
+  }
+);
 
 // When receiving successful LTI launch redirects to app
 lti.onConnect(async (token, req, res) => {
   return res.sendFile("index.html", { root: "dist" });
-})
+});
 
 // When receiving deep linking request redirects to deep screen
 lti.onDeepLinking(async (token, req, res) => {
-  return lti.redirect(res, '/deeplink', { newResource: true })
-})
-
+  return lti.redirect(res, "/deeplink", { newResource: true });
+});
 
 // Setup function
 const setup = async () => {
-  await lti.deploy({ port: process.env.PORT || "3000" })
+  await lti.deploy({ port: process.env.PORT || "3000" });
 
   /**
    * Register platform
    */
   await lti.registerPlatform({
-    url: process.env.CANVAS_URL,
-    name: 'GATECH', // domain name from canvas instance
-    clientId: process.env.CLIENT_ID, // clientid from the lti plugin which you get inside canvas after installing the plugin
-    authenticationEndpoint: process.env.CANVAS_URL + '/api/lti/authorize_redirect',
-    accesstokenEndpoint: process.env.CANVAS_URL + '/login/oauth2/token',
-    authConfig: { method: 'JWK_SET', key: process.env.CANVAS_URL + '/api/lti/security/jwks' }
-  })
-}
+    url: `https://${config.canvas.host}`,
+    name: "GATECH", // domain name from canvas instance
+    clientId: config.lti.clientId, // clientid from the lti plugin which you get inside canvas after installing the plugin
+    authenticationEndpoint: `https://${config.canvas.host}/api/lti/authorize_redirect`,
+    accesstokenEndpoint: `https://${config.canvas.host}/login/oauth2/token`,
+    authConfig: {
+      method: "JWK_SET",
+      key: `https://${config.canvas.host}/api/lti/security/jwks`,
+    },
+  });
+};
 
-
-setup()
-
+setup();
 
 logger.info(`app version is: ${process.env.APP_VERSION}`);
 
-router.get('/lti', (req, res) => {
-   return res.sendFile("index.html", { root: "dist" });
-})
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+router.get("/lti", (req, res) => {
+  return res.sendFile("index.html", { root: "dist" });
+});
 
 lti.app.use(router);
 
-lti.app.set("trust proxy", require("./config")["trustProxy"]);
-lti.app.use(Sentry.Handlers.requestHandler());
+lti.app.set("trust proxy", config.trustProxy);
 
-//view engine setup
+// view engine setup
 lti.app.set("views", path.join(__dirname, "views"));
 lti.app.set("view engine", "ejs");
+
+lti.app.use(express.json({ limit: "10mb" }));
+lti.app.use(express.urlencoded({ extended: false, limit: "10mb" }));
+lti.app.use(express.static(path.join(__dirname, "..", "dist")));
 
 lti.app.use(express.json({ limit: "10mb" }));
 lti.app.use(express.urlencoded({ extended: false, limit: "10mb" }));
@@ -94,18 +99,15 @@ lti.app.use((req, res, next) => {
   next();
 });
 
-const apiRouter = require("./routes/api");
 lti.app.use("/api/", apiRouter);
 
-//catch 404 and forward to error handler
-lti.app.use(function (req, res, next) {
+// catch 404 and forward to error handler
+lti.app.use((req, res, next) => {
   next(createError(404));
 });
 
-lti.app.use(Sentry.Handlers.errorHandler());
-
 // error handler
-lti.app.use(function (err, req, res, next) {
+lti.app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
@@ -115,4 +117,4 @@ lti.app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-module.exports = lti.app;
+export default lti.app;
