@@ -26,11 +26,11 @@ lti.setup(
   {
     staticPath: "dist",
     cookies: {
-      secure: false,
+      secure: true,
       sameSite: "None",
     },
     tokenMaxAge: false,
-    devMode: true,
+    devMode: false,
   }
 );
 
@@ -55,11 +55,11 @@ const setup = async () => {
     url: `https://${config.canvas.host}`,
     name: "GATECH", // domain name from canvas instance
     clientId: config.lti.clientId, // clientid from the lti plugin which you get inside canvas after installing the plugin
-    authenticationEndpoint: `https://${config.canvas.host}/api/lti/authorize_redirect`,
+    authenticationEndpoint: `https://${config.lti.ssoHost}/api/lti/authorize_redirect`,
     accesstokenEndpoint: `https://${config.canvas.host}/login/oauth2/token`,
     authConfig: {
       method: "JWK_SET",
-      key: `https://${config.canvas.host}/api/lti/security/jwks`,
+      key: `https://${config.lti.ssoHost}/api/lti/security/jwks`,
     },
   });
 };

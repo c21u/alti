@@ -3,7 +3,7 @@ services:
     build: .
     environment:
       - APP_VERSION=develop
-      - CANVAS_API_URL
+      - CANVAS_HOST
       - CANVAS_TOKEN
       - LTI_KEY
       - LTI_SECRET
@@ -15,6 +15,7 @@ services:
       - DB_PASS
       - CANVAS_URL
       - CLIENT_ID
+      - LTI_SSO_HOST
     ports:
       - "3000"
     labels:

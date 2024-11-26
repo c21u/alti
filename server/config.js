@@ -41,6 +41,7 @@ export const jwtSecret = getEnvVarOrDefault("JWT_SECRET");
 export const lti = {
   key: getEnvVarOrDefault("LTI_KEY"),
   clientId: getEnvVarOrDefault("CLIENT_ID"),
+  ssoHost: getEnvVarOrDefault("LTI_SSO_HOST"),
 };
 
 export const logLevel =
