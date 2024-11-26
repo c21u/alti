@@ -56,7 +56,7 @@ const setup = async () => {
     name: "GATECH", // domain name from canvas instance
     clientId: config.lti.clientId, // clientid from the lti plugin which you get inside canvas after installing the plugin
     authenticationEndpoint: `https://${config.lti.ssoHost}/api/lti/authorize_redirect`,
-    accesstokenEndpoint: `https://${config.canvas.host}/login/oauth2/token`,
+    accesstokenEndpoint: `https://${config.lti.ssoHost}/login/oauth2/token`,
     authConfig: {
       method: "JWK_SET",
       key: `https://${config.lti.ssoHost}/api/lti/security/jwks`,
