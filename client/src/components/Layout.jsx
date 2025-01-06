@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Text, View } from "@instructure/ui";
+import { Text } from "@instructure/ui-text";
+import {  View } from "@instructure/ui-view";
 
 const Layout = ({ children, versionInfo }) => (
   <View as="div" width="100%">

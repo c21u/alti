@@ -1,12 +1,12 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { theme } from "@instructure/canvas-theme";
-import { EmotionThemeProvider } from "@instructure/emotion";
+import { createRoot } from "react-dom/client";
+import { canvas } from "@instructure/ui-themes";
+import { InstUISettingsProvider } from "@instructure/emotion";
 import App from "./components/App";
 
-ReactDOM.render(
-  <EmotionThemeProvider theme={theme}>
+const root = createRoot(document.getElementById("lti_root"));
+root.render(
+  <InstUISettingsProvider theme={canvas}>
     <App />
-  </EmotionThemeProvider>,
-  document.getElementById("lti_root")
+  </InstUISettingsProvider>,
 );

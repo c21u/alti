@@ -54,8 +54,5 @@ export default {
     new HTMLWebpackPlugin({
       template: "index.html",
     }),
-    new webpack.ProvidePlugin({
-      process: 'process/browser.js',
-    }),
   ],
 };
