@@ -2,7 +2,7 @@ import { dirname, resolve } from "path";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import HTMLWebpackPlugin from "html-webpack-plugin";
 import { fileURLToPath } from "url";
-import { readFile } from "fs/promises";
+import { readFileSync } from "fs";
 import webpack from "webpack";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -35,7 +35,7 @@ export default {
         use: {
           loader: "babel-loader",
           options: JSON.parse(
-            await readFile(new URL("./.babelrc.json", import.meta.url))
+            readFileSync(new URL("./.babelrc.json", import.meta.url))
           ),
         },
       },

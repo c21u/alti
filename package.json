@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
+    "build-prod": "yarn run build",
+    "build-dev": "webpack --config webpack.dev.js",
     "dev:server": "nodemon ./server/bin/www | bunyan --output short --time local",
     "dev:client": "webpack --config webpack.dev.js --watch",
     "start": "node server/server.js",

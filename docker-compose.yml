@@ -1,6 +1,9 @@
 services:
   app:
-    build: .
+    build:
+      context: .
+      args:
+        BUILD_FOR: dev
     environment:
       - APP_VERSION=develop
       - CANVAS_HOST
@@ -22,6 +25,10 @@ services:
       - "traefik.http.routers.ltitool.rule=Host(`dev.127.0.0.1.nip.io`)"
       - "traefik.http.routers.ltitool.tls=true"
       - "traefik.http.routers.ltitool.entrypoints=https"
+    depends_on:
+      db:
+        condition: service_healthy
+
   db:
     image: postgres
     environment:
