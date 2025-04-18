@@ -1,4 +1,4 @@
-module.exports = (Data) => (req) => {
+export default (Data) => (req) => {
   return Data.getAccounts()
     .then((response) => {
       if (!response.body) {

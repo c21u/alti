@@ -16,3 +16,14 @@
  * check config.js for other vars to set.
 
 4. Replace `CHANGELOG.md` and `README.md` for the new project.
+
+# Create Developer Key
+
+1. Go to Admin > Developer Keys > Create new LTI Key
+2. Put following values in the form. (Modify app url as per actual)
+ * Redirect URI: https://dev.127.0.0.1.nip.io/lti
+ * Target Link URI: https://dev.127.0.0.1.nip.io/lti
+ * OpenID Connect Initiation URL: https://dev.127.0.0.1.nip.io/login
+ * JWK Method: Public JWK URL
+ * Public JWK URL: https://dev.127.0.0.1.nip.io/keys
+3. Configure the client id while adding the app

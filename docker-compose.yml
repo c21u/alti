@@ -1,29 +1,55 @@
-version: "2.4"
 services:
   app:
     build: .
     environment:
       - APP_VERSION=develop
-      - CANVAS_API_URL
+      - CANVAS_HOST
       - CANVAS_TOKEN
       - LTI_KEY
       - LTI_SECRET
       - NODE_ENV=development
       - TRUST_PROXY=uniquelocal
+      - DB_HOST
+      - DB_NAME
+      - DB_USER
+      - DB_PASS
+      - CANVAS_URL
+      - CLIENT_ID
+      - LTI_SSO_HOST
     ports:
       - "3000"
     labels:
       - "traefik.http.routers.ltitool.rule=Host(`dev.127.0.0.1.nip.io`)"
       - "traefik.http.routers.ltitool.tls=true"
       - "traefik.http.routers.ltitool.entrypoints=https"
-
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: altidb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    labels:
+      - "traefik.tcp.services.postgres.loadbalancer.server.port=5432"
+      - "traefik.tcp.routers.postgres.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.postgres.entrypoints=postgres"
+      - "traefik.tcp.routers.postgres.service=postgres"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d postgresql://postgres:altidb@localhost/postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
   reverse-proxy:
     image: traefik:v2.0
     ports:
       - "80:80"
       - "443:443"
       - "8080:8080"
+      - "5432:5432"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - $HOME/certs:/data/traefik:ro
       - ./traefik:/etc/traefik:ro
+
+volumes:
+  postgres_data:
