@@ -17,6 +17,7 @@ services:
       - CLIENT_ID
       - LTI_SSO_HOST
       - LTI_URL
+      - LOG_LEVEL=${LOG_LEVEL:-debug}
     ports:
       - "3000"
     depends_on:
