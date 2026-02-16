@@ -8,6 +8,7 @@
     "build": "webpack --config webpack.prod.js",
     "build-prod": "yarn run build",
     "build-dev": "webpack --config webpack.dev.js",
+    "postinstall": "patch-package",
     "start": "node server/server.js"
   },
   "husky": {
@@ -59,6 +60,7 @@
     "html-webpack-plugin": "^5.6.6",
     "husky": ">=9",
     "lint-staged": ">=16",
+    "patch-package": "^8.0.1",
     "prettier": "3.8.1",
     "style-loader": "^4.0.0",
     "webpack": "^5.105.2",
