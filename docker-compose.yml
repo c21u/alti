@@ -22,6 +22,15 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./server
+          target: /app/server
+        - action: rebuild
+          path: ./client
+        - action: rebuild
+          path: package.json
     labels:
       - "traefik.http.routers.ltitool.rule=Host(`dev.127.0.0.1.nip.io`)"
       - "traefik.http.routers.ltitool.tls=true"
