@@ -1,61 +1,26 @@
-import qs from "qs";
+export const getPlatformUrl = ({
+  locals: {
+    context: { launchPresentation },
+  },
+}) => new URL(launchPresentation.return_url).origin;
 
-const getRole = (userRoles) => {
-  const instructorRegex = /.*instructor.*/i;
-  const learnerRegex = /.*learner.*/i;
+export const createContext = ({ locals: { token, context, idtoken } }) => {
+  const info = {
+    ...(token.userInfo.name ? { name: token.userInfo.name } : null),
+    ...(token.userInfo.email ? { email: token.userInfo.email } : null),
+    ...(context.roles ? { roles: context.roles } : null),
+    ...(context.context ? { context: context.context } : null),
+  };
 
-  let isInstructor = false;
-  let isLearner = false;
-
-  if (!userRoles) {
-    return "none";
-  }
-
-  userRoles.forEach((role) => {
-    if (instructorRegex.test(role)) {
-      isInstructor = true;
-    } else if (learnerRegex.test(role)) {
-      isLearner = true;
-    }
-  });
-
-  if (isInstructor && isLearner) return "both";
-  if (isLearner) return "learner";
-  if (isInstructor) return "instructor";
-  return "unknown";
-};
-
-export const createContext = (req, res) => {
-  const token = res.locals.token;
-  const context = res.locals.context;
-
-  const info = {};
-  if (token.userInfo) {
-    if (token.userInfo.name) info.name = token.userInfo.name;
-    if (token.userInfo.email) info.email = token.userInfo.email;
-  }
-
-  if (context.roles) info.roles = context.roles;
-  if (context.context) info.context = context.context;
-
-  // courseId: user.custom_canvas_course_id || null,
   return {
     userId: info.name,
     userRole: info.roles,
-    info: info,
-    idtoken: res.locals.idtoken,
+    info,
+    idtoken,
   };
 };
 
-export const parseQueryParameters = (headers) => {
-  // match / or ? or both at the start of the location string, and remove.
-  const queryString = headers.location.replace(/^\/?\??/, "");
-  return qs.parse(queryString, {
-    ignoreQueryPrefix: true,
-  });
-};
-
 export default {
+  getPlatformUrl,
   createContext,
-  parseQueryParameters,
 };
