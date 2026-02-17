@@ -17,16 +17,25 @@ const getEnvVarOrNull = (envVar) => {
   }
 };
 
+const getEnvVarOrThrow = (envVar, error) => {
+  if (!!process.env[envVar]) {
+    return process.env[envVar];
+  } else {
+    throw new Error(
+      error ? error : `Couldn't read environment var "${envVar}"`,
+    );
+  }
+};
+
 /* Set default values assuming NODE_ENV === production */
 
 export const buzzAPI = {
-  appID: getEnvVarOrDefault("BUZZAPI_APP_ID"),
-  password: getEnvVarOrDefault("BUZZAPI_PASSWORD"),
+  appID: getEnvVarOrNull("BUZZAPI_APP_ID"),
+  password: getEnvVarOrNull("BUZZAPI_PASSWORD"),
 };
 
 export const canvas = {
-  host: getEnvVarOrDefault("CANVAS_HOST"),
-  token: getEnvVarOrDefault("CANVAS_TOKEN"),
+  token: getEnvVarOrNull("CANVAS_TOKEN"),
 };
 
 export const db = {
@@ -36,20 +45,22 @@ export const db = {
   host: getEnvVarOrDefault("DB_HOST", "db"),
 };
 
-export const jwtSecret = getEnvVarOrDefault("JWT_SECRET");
-
 export const lti = {
-  key: getEnvVarOrDefault("LTI_KEY"),
-  clientId: getEnvVarOrDefault("CLIENT_ID"),
-  ssoHost: getEnvVarOrDefault("LTI_SSO_HOST"),
+  url: getEnvVarOrDefault("LTI_URL", "https://canvas.test.instructure.com"),
+  name: getEnvVarOrDefault("LTI_NAME", "GATECH"),
+  key: getEnvVarOrThrow("LTI_KEY"),
+  clientId: getEnvVarOrThrow("CLIENT_ID"),
+  ssoHost: getEnvVarOrDefault("LTI_SSO_HOST", "sso.test.canvaslms.com"),
 };
 
-export const logLevel =
+export const logLevel = getEnvVarOrDefault(
+  "LOG_LEVEL",
   process.env.NODE_ENV === "development"
     ? "debug"
     : process.env.NODE_ENV === "test"
-    ? "error"
-    : getEnvVarOrDefault("LOG_LEVEL", "info");
+      ? "error"
+      : "info",
+);
 
 export const trustProxy = getEnvVarOrDefault("TRUST_PROXY", "loopback");
 
@@ -57,7 +68,6 @@ const config = {
   buzzAPI,
   canvas,
   db,
-  jwtSecret,
   lti,
   logLevel,
   trustProxy,

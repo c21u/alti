@@ -9,7 +9,6 @@ import logger from "./lib/logger.js";
 import apiRouter from "./routes/api.js";
 import config from "./config.js";
 
-// eslint-disable-next-line new-cap
 const router = express.Router();
 
 const db = new Database(config.db.name, config.db.user, config.db.pass, {
@@ -31,7 +30,7 @@ lti.setup(
     },
     tokenMaxAge: false,
     devMode: false,
-  }
+  },
 );
 
 // When receiving successful LTI launch redirects to app
@@ -46,14 +45,24 @@ lti.onDeepLinking(async (token, req, res) => {
 
 // Setup function
 const setup = async () => {
-  await lti.deploy({ port: process.env.PORT || "3000" });
+  const port = process.env.PORT || "3000";
+  await lti.deploy({ port, silent: true });
+  logger.info(
+    {
+      port,
+      appRoute: lti.appRoute(),
+      loginRoute: lti.loginRoute(),
+      keys: lti.keysetRoute(),
+    },
+    "LTIjs is up",
+  );
 
   /**
    * Register platform
    */
   await lti.registerPlatform({
-    url: `https://${config.canvas.host}`,
-    name: "GATECH", // domain name from canvas instance
+    url: config.lti.url,
+    name: config.lti.name, // domain name from canvas instance
     clientId: config.lti.clientId, // clientid from the lti plugin which you get inside canvas after installing the plugin
     authenticationEndpoint: `https://${config.lti.ssoHost}/api/lti/authorize_redirect`,
     accesstokenEndpoint: `https://${config.lti.ssoHost}/login/oauth2/token`,
@@ -94,7 +103,7 @@ lti.app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
+    "Origin, X-Requested-With, Content-Type, Accept",
   );
   next();
 });

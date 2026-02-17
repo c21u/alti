@@ -1,23 +1,37 @@
 services:
   app:
-    build: .
+    build:
+      context: .
+      args:
+        BUILD_FOR: dev
     environment:
       - APP_VERSION=develop
-      - CANVAS_HOST
-      - CANVAS_TOKEN
-      - LTI_KEY
-      - LTI_SECRET
+      - LTI_KEY=secret
       - NODE_ENV=development
       - TRUST_PROXY=uniquelocal
-      - DB_HOST
-      - DB_NAME
-      - DB_USER
-      - DB_PASS
-      - CANVAS_URL
+      - DB_HOST=db
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASS=altidb
+      - CANVAS_TOKEN
       - CLIENT_ID
       - LTI_SSO_HOST
+      - LTI_URL
+      - LOG_LEVEL=${LOG_LEVEL:-debug}
     ports:
       - "3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./server
+          target: /app/server
+        - action: rebuild
+          path: ./client
+        - action: rebuild
+          path: package.json
     labels:
       - "traefik.http.routers.ltitool.rule=Host(`dev.127.0.0.1.nip.io`)"
       - "traefik.http.routers.ltitool.tls=true"

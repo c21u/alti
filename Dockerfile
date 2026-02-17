@@ -1,4 +1,4 @@
-FROM node:lts AS builder
+FROM node:lts-alpine AS builder
 WORKDIR /app
 
 COPY package.json .
@@ -6,16 +6,17 @@ COPY yarn.lock .
 
 RUN yarn install --no-progress --non-interactive
 
-COPY .eslintignore .
-COPY .eslintrc.cjs .
+ARG BUILD_FOR="prod"
+
+COPY eslint.config.js .
 COPY .babelrc.json .
 COPY webpack.common.js .
-COPY webpack.prod.js .
+COPY webpack.${BUILD_FOR}.js .
 COPY client client
 
-RUN yarn run build
+RUN yarn run build-${BUILD_FOR}
 
-FROM node:lts
+FROM node:lts-alpine
 
 WORKDIR /app
 

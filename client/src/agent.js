@@ -1,45 +1,26 @@
-import jwtDecode from "jwt-decode";
-import qs from "qs";
-import superagent from "superagent";
-
 const API_ROOT = "/api";
-const QUERY_PARAMETERS = window.location.search;
 
-/**
- * @param {string} item
- * @return {(string|boolean)}
- */
-const parseQueryParams = (item) => {
-  if (!item) return false;
-  try {
-    return qs.parse(QUERY_PARAMETERS, { ignoreQueryPrefix: true })[item];
-  } catch (reason) {
-    console.error(reason);
-  }
-  return false;
+const getLtik = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const ltik = searchParams.get("ltik");
+  if (!ltik) throw new Error("Missing lti key.");
+  return ltik;
 };
 
-const handleErrors = (err) => {
-  return err;
-};
-
-const responseBody = (res) => res.body;
-
-const tokenPlugin = (req) => {
-  try {
-    req.set("Authorization", `Bearer ${getLtik()}`);
-  } catch (reason) {
-    console.error(reason);
-  }
+const fetchOptions = {
+  headers: {
+    Authorization: `Bearer ${getLtik()}`,
+  },
 };
 
 const requests = {
-  get: (url) => {
-    return superagent
-      .get(`${API_ROOT}${url}`)
-      .use(tokenPlugin)
-      .then(handleErrors)
-      .then(responseBody);
+  get: async (url) => {
+    try {
+      const res = await window.fetch(`${API_ROOT}${url}`, fetchOptions);
+      return await res.json();
+    } catch (err) {
+      console.error(err);
+    }
   },
 };
 
@@ -48,13 +29,6 @@ const Canvas = {
     return requests.get(`/canvas-status/`);
   },
 };
-
-const getLtik = () => {
-  const searchParams = new URLSearchParams(window.location.search)
-  const ltik = searchParams.get('ltik')
-  if (!ltik) throw new Error('Missing lti key.')
-  return ltik
-}
 
 const getContext = () => requests.get(`/context/`);
 

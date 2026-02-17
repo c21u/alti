@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Spinner, View } from "@instructure/ui";
+import { Spinner } from "@instructure/ui-spinner";
+import { View } from "@instructure/ui-view";
 import agent from "../agent";
 import Demo from "./Demo";
 import Layout from "./Layout";

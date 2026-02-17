@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import agent from "../agent";
-import { Text, View } from "@instructure/ui";
+import { Text } from "@instructure/ui-text";
+import { View } from "@instructure/ui-view";
 
 /**
  * This component requests an endpoint that does a basic check of
@@ -17,8 +18,8 @@ const CanvasStatus = () => {
     agent.Canvas.status()
       .then((response) =>
         setResponseOk(
-          !!response && !!response.status && response.status === "success"
-        )
+          !!response && !!response.status && response.status === "success",
+        ),
       )
       .catch((err) => console.error(err))
       .finally(() => setIsLoading(false));
