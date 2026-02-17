@@ -1,7 +1,6 @@
 {
   "name": "alti",
   "version": "0.5.1",
-  "private": false,
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -25,6 +24,8 @@
     ]
   },
   "dependencies": {
+    "@babel/runtime": "^7.28.6",
+    "@emotion/react": "^11.14.0",
     "@instructure/canvas-theme": "^11.5.0",
     "@instructure/emotion": "^11.5.0",
     "@instructure/ui-spinner": "^11.5.0",
@@ -38,6 +39,7 @@
     "http-errors": "~2.0.1",
     "ltijs": "^5.9.9",
     "ltijs-sequelize": "^2.4.4",
+    "patch-package": "^8.0.1",
     "pino": "^10.3.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
@@ -60,12 +62,11 @@
     "html-webpack-plugin": "^5.6.6",
     "husky": ">=9",
     "lint-staged": ">=16",
-    "patch-package": "^8.0.1",
     "prettier": "3.8.1",
     "style-loader": "^4.0.0",
     "webpack": "^5.105.2",
     "webpack-cli": "^6.0.1",
     "webpack-merge": "^6.0.1"
   },
-  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+  "packageManager": "yarn@4.12.0"
 }
